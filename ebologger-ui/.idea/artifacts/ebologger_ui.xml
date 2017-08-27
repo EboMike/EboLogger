@@ -1,0 +1,21 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" build-on-make="true" name="ebologger-ui">
+    <output-path>$PROJECT_DIR$/out/artifacts/ebologger_ui</output-path>
+    <properties id="javafx-properties">
+      <options>
+        <option name="appClass" value="com.ebomike.ebologger.client.Main" />
+        <option name="description" value="" />
+        <option name="htmlPlaceholderId" value="" />
+        <option name="nativeBundle" value="all" />
+        <option name="title" value="EboLogger UI" />
+        <option name="vendor" value="EboMike" />
+        <option name="version" value="0.1" />
+      </options>
+    </properties>
+    <root id="root">
+      <element id="archive" name="ebologger_ui.jar">
+        <element id="module-output" name="ebologger-ui" />
+      </element>
+    </root>
+  </artifact>
+</component>
