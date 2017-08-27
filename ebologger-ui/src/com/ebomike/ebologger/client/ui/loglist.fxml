@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<TableView fx:id="logs" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ebomike.ebologger.client.ui.LogList">
+    <columns>
+        <TableColumn fx:id="timestamp" editable="false" prefWidth="150.0" text="Time" />
+        <TableColumn fx:id="severity" editable="false" prefWidth="50.0" text="Severity" />
+        <TableColumn fx:id="thread" editable="false" prefWidth="150.0" text="Thread" />
+        <TableColumn fx:id="tag" editable="false" prefWidth="150.0" text="Tag" />
+        <TableColumn fx:id="context" editable="false" prefWidth="150.0" text="Context" />
+        <TableColumn fx:id="object" editable="false" prefWidth="100.0" text="Object" />
+        <TableColumn fx:id="msg" editable="false" prefWidth="600.0" sortable="false" text="Message" />
+    </columns>
+</TableView>
