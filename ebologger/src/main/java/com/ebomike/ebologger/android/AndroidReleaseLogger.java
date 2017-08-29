@@ -1,16 +1,11 @@
 package com.ebomike.ebologger.android;
 
-import android.support.annotation.Nullable;
-import android.util.Log;
-
 import com.ebomike.ebologger.Config;
-import com.ebomike.ebologger.Logger;
+import com.ebomike.ebologger.EboLogger;
 import com.ebomike.ebologger.model.DummyLogMessage;
 import com.ebomike.ebologger.model.LogMessage;
 
-import java.util.UnknownFormatConversionException;
-
-public class AndroidReleaseLogger extends Logger {
+public class AndroidReleaseLogger extends EboLogger {
     private final String tag;
 
     private final Config config;

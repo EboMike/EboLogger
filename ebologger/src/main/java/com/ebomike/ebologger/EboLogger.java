@@ -1,12 +1,9 @@
 package com.ebomike.ebologger;
 
 import android.support.annotation.AnyThread;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.ebomike.ebologger.android.AndroidLoggerFactory;
-import com.ebomike.ebologger.android.AndroidReleaseLogger;
 import com.ebomike.ebologger.model.LogMessage;
 
 /**
@@ -16,13 +13,13 @@ import com.ebomike.ebologger.model.LogMessage;
  *
  * The most common way to generate instantiate a logger is by adding
  *
- * <code>private final Logger logger = Logger.get(this);</code>
+ * <code>private final EboLogger logger = EboLogger.get(this);</code>
  *
  * inside a class. It's also possible to have a static instance:
  *
- * <code>private static final Logger logger = logger.get();</code>
+ * <code>private static final EboLogger logger = logger.get();</code>
  *
- * It's preferable to have a per-instance Logger in order to store this additional information -
+ * It's preferable to have a per-instance EboLogger in order to store this additional information -
  * it can often be useful to see which specific object sent a message.
  *
  * Messages can be sent either with the Android-compatible syntax
@@ -34,7 +31,7 @@ import com.ebomike.ebologger.model.LogMessage;
  * Any tag other than the severity and the log message are optional. The severity must be first,
  * and log() must be last.
  */
-public abstract class Logger {
+public abstract class EboLogger {
     public enum LogLevel {
         VERBOSE(1),
         DEBUG(2),
@@ -55,34 +52,34 @@ public abstract class Logger {
     };
 
     @AnyThread
-    public static Logger get(Class clazz, boolean enabled) {
+    public static EboLogger get(Class clazz, boolean enabled) {
         return get(clazz.getSimpleName(), null, enabled, FlavorSetup.DEFAULT_MIN_LEVEL_LOCAL);
     }
 
     @AnyThread
-    public static Logger get(Object object, boolean enabled) {
+    public static EboLogger get(Object object, boolean enabled) {
         return get(object.getClass().getSimpleName(), object, enabled,
                 FlavorSetup.DEFAULT_MIN_LEVEL_LOCAL);
     }
 
     @AnyThread
-    public static Logger get(Object object) {
+    public static EboLogger get(Object object) {
         return get(object, true);
     }
 
     @AnyThread
-    public static Logger get() {
+    public static EboLogger get() {
         return get(FlavorSetup.DEFAULT_MIN_LEVEL_LOCAL);
     }
 
     @AnyThread
-    public static Logger get(LogLevel minSeverity) {
+    public static EboLogger get(LogLevel minSeverity) {
         StackTraceElement[] stElements = Thread.currentThread().getStackTrace();
 
         // Seems to be this:
         // 0=dalvik.system.VMStack
         // 1=java.lang.Thread
-        // 2=com.ebomike.ebologger.Logger
+        // 2=com.ebomike.ebologger.EboLogger
 /*
         Log.v("EboLOG", "Count=" + stElements.length);
         Log.v("EboLOG", "0=" + stElements[0].getClassName());
@@ -96,7 +93,7 @@ public abstract class Logger {
 
         for (int index = 3; index < stElements.length; index++) {
             className = stElements[index].getClassName();
-            if (!className.equals("com.ebomike.ebologger.Logger")) {
+            if (!className.equals("com.ebomike.ebologger.EboLogger")) {
                 int delimiter = className.lastIndexOf('.');
                 if (delimiter >= 0) {
                     className = className.substring(delimiter + 1);
@@ -109,8 +106,8 @@ public abstract class Logger {
     }
 
     @AnyThread
-    public static Logger get(String name, @Nullable Object object, boolean enabled,
-                             LogLevel minSeverity) {
+    public static EboLogger get(String name, @Nullable Object object, boolean enabled,
+                                LogLevel minSeverity) {
         int len = Math.min(name.length(), 15);
         String tag = name.substring(0, len);
 

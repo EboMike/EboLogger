@@ -12,7 +12,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class LoggerTest {
     @Test
     public void testGet() {
-        Logger logger = Logger.get();
+        EboLogger logger = EboLogger.get();
 
         assertThat(logger.getTag(), equalTo("LoggerTest"));
     }

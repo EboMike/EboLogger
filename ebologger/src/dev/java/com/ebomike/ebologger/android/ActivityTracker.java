@@ -8,12 +8,9 @@ import android.support.annotation.AnyThread;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 
-import com.ebomike.ebologger.FunctionalLogger;
-import com.ebomike.ebologger.LogContext;
+import com.ebomike.ebologger.EboLogger;
 import com.ebomike.ebologger.LogContextFactory;
-import com.ebomike.ebologger.Logger;
-import com.ebomike.ebologger.Logger.LogLevel;
-import com.ebomike.ebologger.model.ProgramGraph;
+import com.ebomike.ebologger.EboLogger.LogLevel;
 import com.ebomike.ebologger.model.TrackedContext;
 
 import java.util.HashMap;
@@ -28,7 +25,7 @@ public class ActivityTracker implements Application.ActivityLifecycleCallbacks {
     @Nullable
     private static ActivityTracker instance = null;
 
-    private final Logger logger = Logger.get("ACTIVITY", null, true, LogLevel.DEBUG);
+    private final EboLogger logger = EboLogger.get("ACTIVITY", null, true, LogLevel.DEBUG);
 
     private final Map<Activity, TrackedContext> activities = new HashMap<>();
 

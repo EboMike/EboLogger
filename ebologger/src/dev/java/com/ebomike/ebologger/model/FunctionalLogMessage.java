@@ -2,7 +2,7 @@ package com.ebomike.ebologger.model;
 
 import android.support.annotation.Nullable;
 
-import com.ebomike.ebologger.Logger.LogLevel;
+import com.ebomike.ebologger.EboLogger.LogLevel;
 
 public class FunctionalLogMessage implements LogMessage {
     private final ProgramGraph graph;

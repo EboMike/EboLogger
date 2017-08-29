@@ -1,6 +1,6 @@
 package com.ebomike.ebologger;
 
-import com.ebomike.ebologger.Logger.LogLevel;
+import com.ebomike.ebologger.EboLogger.LogLevel;
 import com.ebomike.ebologger.android.AndroidLogConnector;
 
 import org.junit.Before;
@@ -25,7 +25,7 @@ public class DevLoggerTest {
 
     @Test
     public void testLogAll() {
-        Logger logger = Logger.get();
+        EboLogger logger = EboLogger.get();
 
         logger.verbose().log("Test V");
         logger.debug().log("Test D");
@@ -44,7 +44,7 @@ public class DevLoggerTest {
     @Test
 
     public void testLogAllWithExceptions() {
-        Logger logger = Logger.get();
+        EboLogger logger = EboLogger.get();
         Throwable throwable = new IllegalStateException("Test");
 
         logger.verbose().exception(throwable).log("Test V");

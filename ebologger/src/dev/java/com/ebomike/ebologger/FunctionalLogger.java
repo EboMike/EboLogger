@@ -4,14 +4,8 @@ import android.support.annotation.Nullable;
 
 import com.ebomike.ebologger.model.CallHierarchy;
 import com.ebomike.ebologger.model.ProgramGraph;
-import com.ebomike.ebologger.model.TrackedContext;
-import com.ebomike.ebologger.model.TrackedMarker;
-import com.ebomike.ebologger.model.TrackedObject;
-import com.ebomike.ebologger.model.TrackedThread;
 
-import static android.R.id.message;
-
-public abstract class FunctionalLogger extends Logger {
+public abstract class FunctionalLogger extends EboLogger {
     protected final String tag;
 
     @Nullable

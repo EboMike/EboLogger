@@ -1,10 +1,8 @@
 package com.ebomike.ebologger;
 
-import android.support.annotation.Nullable;
-
 import com.ebomike.ebologger.model.LogMessage;
 
-class NullLogger extends Logger {
+class NullLogger extends EboLogger {
     @Override
     protected LogMessage createLogMessage(LogLevel severity) {
         return null;

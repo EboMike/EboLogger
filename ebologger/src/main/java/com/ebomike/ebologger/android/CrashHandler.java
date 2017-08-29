@@ -1,10 +1,10 @@
 package com.ebomike.ebologger.android;
 
-import com.ebomike.ebologger.Logger;
-import com.ebomike.ebologger.Logger.LogLevel;
+import com.ebomike.ebologger.EboLogger;
+import com.ebomike.ebologger.EboLogger.LogLevel;
 
 public class CrashHandler implements Thread.UncaughtExceptionHandler {
-//    private Logger logger = Logger.get();
+//    private EboLogger logger = EboLogger.get();
 
     private Thread.UncaughtExceptionHandler oldHandler;
 
@@ -23,7 +23,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
     public void uncaughtException(final Thread t, final Throwable e) {
         if (!triggered) {
             triggered = true;
-            Logger logger = Logger.get("CrashHandler", null, true, LogLevel.DEBUG);
+            EboLogger logger = EboLogger.get("CrashHandler", null, true, LogLevel.DEBUG);
 
             Throwable throwable = e;
 

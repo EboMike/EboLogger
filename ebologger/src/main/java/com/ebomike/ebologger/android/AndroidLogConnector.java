@@ -4,14 +4,14 @@ import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
-import com.ebomike.ebologger.Logger;
+import com.ebomike.ebologger.EboLogger;
 
 public class AndroidLogConnector {
     // The singleton instance. Normally always used, except during testing.
     private static AndroidLogConnector instance = new AndroidLogConnector();
 
-    public void androidLog(Logger.LogLevel severity, String tag, String msg,
-                                  @Nullable Throwable e) {
+    public void androidLog(EboLogger.LogLevel severity, String tag, String msg,
+                           @Nullable Throwable e) {
         if (e == null) {
             switch (severity) {
                 case DEBUG:
