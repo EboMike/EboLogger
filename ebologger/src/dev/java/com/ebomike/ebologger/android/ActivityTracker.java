@@ -2,6 +2,7 @@ package com.ebomike.ebologger.android;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.AnyThread;
@@ -74,7 +75,9 @@ public class ActivityTracker implements Application.ActivityLifecycleCallbacks {
 
     @Override
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-        log(activity, "Activity created", "onCreate");
+        Intent intent = activity.getIntent();
+        log(activity, "Activity created",
+                "onCreate with intent " + (intent != null ? intent.toString() : "(null)"));
     }
 
     @Override
