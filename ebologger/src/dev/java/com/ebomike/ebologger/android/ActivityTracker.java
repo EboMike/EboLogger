@@ -78,6 +78,20 @@ public class ActivityTracker implements Application.ActivityLifecycleCallbacks {
         Intent intent = activity.getIntent();
         log(activity, "Activity created",
                 "onCreate with intent " + (intent != null ? intent.toString() : "(null)"));
+
+        if (intent != null) {
+            Bundle extras = intent.getExtras();
+
+            if (extras != null) {
+                for (String key : extras.keySet()) {
+                    Object value = extras.get(key);
+                    if (value != null) {
+                        logger.verbose().log("Intent Extra: %s, type: %s, value: %s",
+                                key, value.getClass().getSimpleName(), value.toString());
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -109,7 +123,8 @@ public class ActivityTracker implements Application.ActivityLifecycleCallbacks {
 
     @Override
     public void onActivityDestroyed(Activity activity) {
-        log(activity, "Activity destroyed", "onDestroy");
+        log(activity, "Activity destroyed", "onDestroy - " + (activity.isFinishing() ?
+            "finishing" : "not finishing"));
     }
 
     private void log(Activity activity, String marker, String action) {
