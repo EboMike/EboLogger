@@ -9,6 +9,7 @@
         <TableColumn fx:id="thread" editable="false" prefWidth="150.0" text="Thread" />
         <TableColumn fx:id="tag" editable="false" prefWidth="150.0" text="Tag" />
         <TableColumn fx:id="context" editable="false" prefWidth="150.0" text="Context" />
+        <TableColumn fx:id="marker" editable="false" prefWidth="150.0" text="Marker" />
         <TableColumn fx:id="object" editable="false" prefWidth="100.0" text="Object" />
         <TableColumn fx:id="msg" editable="false" prefWidth="600.0" sortable="false" text="Message" />
     </columns>

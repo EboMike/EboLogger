@@ -43,6 +43,9 @@ public class LogList implements EventHandler<ContextMenuEvent>, Initializable {
     private TableColumn<LogMsg, String> context;
 
     @FXML
+    private TableColumn<LogMsg, String> marker;
+
+    @FXML
     private TableColumn<LogMsg, String> object;
 
     @FXML
@@ -66,13 +69,15 @@ public class LogList implements EventHandler<ContextMenuEvent>, Initializable {
         tag.setCellValueFactory(
                 new PropertyValueFactory<>("tag")
         );
+        marker.setCellValueFactory(
+                new PropertyValueFactory<>("marker")
+        );
         object.setCellValueFactory(
                 new PropertyValueFactory<>("object")
         );
         msg.setCellValueFactory(
                 new PropertyValueFactory<>("msg")
         );
-//        msg.setCellFactory(LogTableCellBase::new);
         msg.setCellFactory(LogTableCellBase::new);
 
         logs.setOnContextMenuRequested(this);

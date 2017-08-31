@@ -13,7 +13,9 @@ public class LogMsg implements StreamSerializable {
 
     private final int severity;
 
-    private final int marker;
+    private final int markerId;
+
+    private final String marker;
 
     private final int tagId;
 
@@ -34,12 +36,14 @@ public class LogMsg implements StreamSerializable {
 
     private static int nextId = 0;
 
-    public LogMsg(Model model, long timestamp, int severity, int marker, int tagId, String tag, String msg,
-                  HostContext context, HostThread thread, HostObject object, @Nullable HostCallHierarchy hierarchy) {
+    public LogMsg(Model model, long timestamp, int severity, String marker, int markerId, int tagId, String tag,
+                  String msg, HostContext context, HostThread thread, HostObject object,
+                  @Nullable HostCallHierarchy hierarchy) {
         this.model = model;
         this.timestamp = timestamp;
         this.severity = severity;
         this.marker = marker;
+        this.markerId = markerId;
         this.context = context;
         this.tag = tag;
         this.tagId = tagId;
@@ -86,7 +90,7 @@ public class LogMsg implements StreamSerializable {
         return context;
     }
 
-    public int getMarker() {
+    public String getMarker() {
         return marker;
     }
 
@@ -103,7 +107,7 @@ public class LogMsg implements StreamSerializable {
         out.write(Commands.LOGMSG);
         out.writeLong(timestamp);
         out.write(severity);
-        out.writeInt(marker);
+        out.writeInt(markerId);
         out.writeInt(tagId);
         out.writeUTF(msg);
         out.writeInt(context != null ? context.getId() : 0);

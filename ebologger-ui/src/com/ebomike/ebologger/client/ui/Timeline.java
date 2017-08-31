@@ -331,7 +331,7 @@ public class Timeline extends Canvas implements ListChangeListener<LogMsg> {
                     bucket.addLogMsg(logMsg);
 
                     // If it's a marker, we can render it right now.
-                    if (logMsg.getMarker() != 0) {
+                    if (!logMsg.getMarker().isEmpty()) {
                         int xpos = getXpos(bucketId);
                         gc.setFill(new Color(1.0f, 1.0f, 0.0f, 0.8f));
                         gc.fillRect(xpos, 0, eventWidth, height);
