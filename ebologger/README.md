@@ -16,6 +16,7 @@ A Java-based logging system with host to visualize logging data in real-time
 
 The code is written in (mostly) platform independent Java and design to run on anything. There are a few Android-specific parts in their own package.
 However, because they're currently in the same module, and because of some Android-specific annotations, the logger can only be used on Android.
+Ultimately, the plan is to have it work on all Java platforms.
 
 The UI runs on any platform that can run Java applications.
 
@@ -25,14 +26,14 @@ Each class should create an instance, ideally like this:
 
 ```java
 class MyClass {
-    private final Logger logger = Logger.get(this);
+    private final EboLogger logger = EboLogger.get(this);
 }
 ```
 
 If you're intending to use it in a static context, then a static instance will do just fine:
 
 ```java
-private static final Logger logger = Logger.get();
+private static final EboLogger logger = EboLogger.get();
 ```
 
 To log a message, write:
@@ -81,7 +82,7 @@ To convert, simply add this line to the top of each class that contains logging:
 
 ```java
 class MyClass {
-    private final Logger logger = Logger.get(this);
+    private final EboLogger logger = EboLogger.get(this);
 }
 ```
 
