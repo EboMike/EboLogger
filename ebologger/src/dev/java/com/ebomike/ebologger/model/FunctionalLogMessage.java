@@ -98,7 +98,7 @@ public class FunctionalLogMessage implements LogMessage {
         graph.log(this);
 
         // Temporary - also add the throwable message itself.
-        if (getThrowable() != null) {
+        if (getThrowable() != null && getThrowable().getMessage() != null) {
             FunctionalLogMessage throwableMessage = new FunctionalLogMessage(this);
             throwableMessage.setFormattedMessage(getThrowable().getMessage());
             graph.log(throwableMessage);
