@@ -15,6 +15,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -104,6 +106,8 @@ public class LogList implements EventHandler<ContextMenuEvent>, Initializable {
                     createThreadContext(contextMenu, logMsg);
                 } else if (column == tag) {
                     createTagContext(contextMenu, logMsg);
+                } else if (column == msg) {
+                    createMsgContext(contextMenu, logMsg);
                 }
 
                 break;
@@ -173,11 +177,26 @@ public class LogList implements EventHandler<ContextMenuEvent>, Initializable {
         }
     }
 
+    private void createMsgContext(ContextMenu contextMenu, LogMsg logMsg) {
+        if (logMsg.getMsg() != null) {
+            MenuItem item = new MenuItem("Copy");
+            item.setOnAction((e) -> setClipboard(logMsg.getMsg()));
+            contextMenu.getItems().add(item);
+        }
+    }
+
     private void logMatchView() {
         if (logs.getSelectionModel().getSelectedItem() != timelineView.getPrimarySelected()) {
             logs.getSelectionModel().select(timelineView.getPrimarySelected());
             logs.scrollTo(timelineView.getPrimarySelected());
         }
+    }
+
+    private void setClipboard(String text) {
+        final Clipboard clipboard = Clipboard.getSystemClipboard();
+        final ClipboardContent content = new ClipboardContent();
+        content.putString(text);
+        clipboard.setContent(content);
     }
 
     private void init(Pane parent, TimelineView timelineView) {
