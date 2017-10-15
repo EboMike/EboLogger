@@ -3,8 +3,8 @@ package com.ebomike.ebologger.transport;
 import android.util.Log;
 
 import com.ebomike.ebologger.model.CallHierarchy;
-import com.ebomike.ebologger.model.FunctionalLogMessage;
 import com.ebomike.ebologger.model.ProgramGraph;
+import com.ebomike.ebologger.model.ReadableLogMessage;
 import com.ebomike.ebologger.model.TrackedContext;
 import com.ebomike.ebologger.model.TrackedMarker;
 import com.ebomike.ebologger.model.TrackedObject;
@@ -92,7 +92,7 @@ public class Connection {
         sendQueue.endCommand();
     }
 
-    public void sendLogEntry(FunctionalLogMessage logMessage) {
+    public void sendLogEntry(ReadableLogMessage logMessage) {
         int tagId = createTagId(logMessage.getTag());
 
         DataOutputStream out = sendQueue.startCommand(Commands.LOGMSG);

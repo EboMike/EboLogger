@@ -319,7 +319,7 @@ public class ProgramGraph {
      * @param message Message to be sent.
      */
     @AnyThread
-    public void log(FunctionalLogMessage message) {
+    public void log(ReadableLogMessage message) {
         if (TransportRouter.getInstance().getConnection().isTerminated()) {
             disable();
         }

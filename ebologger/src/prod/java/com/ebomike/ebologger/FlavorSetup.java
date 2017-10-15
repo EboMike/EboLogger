@@ -1,6 +1,6 @@
 package com.ebomike.ebologger;
 
-import com.ebomike.ebologger.Logger.LogLevel;
+import com.ebomike.ebologger.EboLogger.LogLevel;
 
 /**
  * This class has prod-specific values and objects.

@@ -9,24 +9,26 @@ import com.ebomike.ebologger.model.LogMessage;
 /**
  * A logger, typically used per object, that allows for sending logging messages. These messages
  * can be shown in the native debugging interface (like Android's logcat) and can also be sent
- * across the network to a EboLogger host, which will store and visualize them.
+ * across the network to a EboLogger host, which will store and visualize them. They could also
+ * be saved in plaintext to a file. What exactly is done with them depends on which
+ * {@link LogSender} implementations are active, see {@link LogSenderMgr}.
  *
- * The most common way to generate instantiate a logger is by adding
+ * <p>The most common way to generate instantiate a logger is by adding
  *
- * <code>private final EboLogger logger = EboLogger.get(this);</code>
+ * <p><code>private final EboLogger logger = EboLogger.get(this);</code>
  *
- * inside a class. It's also possible to have a static instance:
+ * <p>inside a class. It's also possible to have a static instance:
  *
- * <code>private static final EboLogger logger = logger.get();</code>
+ * <p><code>private static final EboLogger logger = logger.get();</code>
  *
- * It's preferable to have a per-instance EboLogger in order to store this additional information -
- * it can often be useful to see which specific object sent a message.
+ * <p>It's preferable to have a per-instance EboLogger in order to store this additional
+ * information - it can often be useful to see which specific object sent a message.
  *
- * Messages can be sent either with the Android-compatible syntax
+ * <p>Messages can be sent either with the Android-compatible syntax
  * (<code>logger.w(TAG, "warning"</code>), or preferably by starting with the severity and
  * chaining additional information, for example:
  *
- * <code>logger.info().exception(exception).marker(marker).log(message)</code>
+ * <p><code>logger.info().exception(exception).marker(marker).log(message)</code>
  *
  * Any tag other than the severity and the log message are optional. The severity must be first,
  * and log() must be last.

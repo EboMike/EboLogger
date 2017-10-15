@@ -21,4 +21,20 @@ public class LogArgsBase {
     public static String nullable(@Nullable String text) {
         return text == null ? "(null)" : text;
     }
+
+    /**
+     * Returns the toString() result of an Object that could potentially be null. Returns "(null)"
+     * if the object is null.
+     * <p>
+     * Example usage:
+     * <pre>
+     *     logger.info().log("Current object: %s", string(object));
+     * </pre>
+     *
+     * @param object Object to call toString() on.
+     * @return The result of toString() if object is non-null, or "(null)".
+     */
+    public static String string(@Nullable Object object) {
+        return object == null ? "(null)" : object.toString();
+    }
 }

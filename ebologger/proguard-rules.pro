@@ -15,10 +15,10 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
--keep public class com.ebomike.ebologger.Logger {
+-keep public class com.ebomike.ebologger.EboLogger {
     public *;
 }
--keep public enum com.ebomike.ebologger.Logger$LogLevel {
+-keep public enum com.ebomike.ebologger.EboLogger$LogLevel {
     public *;
 }
 -keep public class com.ebomike.ebologger.android.ActivityTracker {

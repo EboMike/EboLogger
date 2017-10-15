@@ -1,61 +1,26 @@
 package com.ebomike.ebologger.model;
 
 import android.support.annotation.Nullable;
-
-import com.ebomike.ebologger.EboLogger.LogLevel;
-import com.ebomike.ebologger.GlobalConfig;
-import com.ebomike.ebologger.LogSender;
-import com.ebomike.ebologger.LogSenderMgr;
+import com.ebomike.ebologger.EboLogger;
 
 public class FunctionalLogMessage implements LogMessage, ReadableLogMessage {
-    private final ProgramGraph graph;
-
-    private final LogLevel severity;
-
-    private final long timestamp;
+    private final EboLogger.LogLevel severity;
 
     private String formattedMessage;
 
-    @Nullable
-    private TrackedMarker marker;
-
-    @Nullable
-    private TrackedContext context;
-
     private String tag;
-
-    private CallHierarchy callHierarchy;
-
-    @Nullable
-    private TrackedObject object;
-
-    private TrackedThread thread;
 
     @Nullable
     private Throwable throwable;
 
-    public FunctionalLogMessage(ProgramGraph graph, LogLevel severity, long timestamp) {
-        this.graph = graph;
+    public FunctionalLogMessage(EboLogger.LogLevel severity, long timestamp) {
         this.severity = severity;
-        this.timestamp = timestamp;
-
-        if (!graph.isDisabled()) {
-            callHierarchy = graph.getHierarchy(Thread.currentThread().getStackTrace());
-            thread = graph.getThread(Thread.currentThread());
-        }
     }
 
     private FunctionalLogMessage(FunctionalLogMessage other) {
-        graph = other.graph;
         severity = other.severity;
-        timestamp = other.timestamp;
         formattedMessage = other.formattedMessage;
-        marker = other.marker;
-        context = other.context;
         tag = other.tag;
-        callHierarchy = other.callHierarchy;
-        object = other.object;
-        thread = other.thread;
         throwable = other.throwable;
     }
 
@@ -73,51 +38,40 @@ public class FunctionalLogMessage implements LogMessage, ReadableLogMessage {
 
     @Override
     public LogMessage marker(String marker) {
-        if (!graph.isDisabled()) {
-            this.marker = graph.getMarker(marker);
-        }
         return this;
     }
 
     @Override
     public LogMessage object(Object object) {
-        if (!graph.isDisabled()) {
-            this.object = graph.getObject(object);
-        }
         return this;
     }
 
     @Override
     public void log(String message, Object... args) {
         formattedMessage = String.format(message, args);
-
-        GlobalConfig config = GlobalConfig.get();
-
-        for (LogSender sender : config.getLogSenders()) {
-            sender.sendMessage(this);
-        }
+//        sendMessage();
     }
 
     @Override
-    public LogLevel getSeverity() {
+    public EboLogger.LogLevel getSeverity() {
         return severity;
     }
 
     @Override
     public long getTimestamp() {
-        return timestamp;
+        return 0L;
     }
 
     @Override
     @Nullable
     public TrackedMarker getMarker() {
-        return marker;
+        return null;
     }
 
     @Override
     @Nullable
     public TrackedContext getContext() {
-        return context;
+        return null;
     }
 
     @Override
@@ -136,18 +90,18 @@ public class FunctionalLogMessage implements LogMessage, ReadableLogMessage {
 
     @Override
     public CallHierarchy getCallHierarchy() {
-        return callHierarchy;
+        return null;
     }
 
     @Override
     @Nullable
     public TrackedObject getObject() {
-        return object;
+        return null;
     }
 
     @Override
     public TrackedThread getThread() {
-        return thread;
+        return null;
     }
 
     @Override
