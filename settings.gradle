@@ -1,1 +1,1 @@
-include ':ebologger'
+include ':ebologger', ':ebologger-demo'

@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">EboLogger-Demo</string>
+    <string name="crash_demo_intro">Click the button to deliberately crash the app. Note how this will send a log to the UI.</string>
+    <string name="crash">Crash</string>
+    <string name="ebologger_intro">Welcome to the EboLogger demo! If you had the UI desktop app running before you started this demo, it should have connected and brought up a new window. In either case, you can see all messages in the adb logcat.</string>
+    <string name="crash_handler_demo">Crash Handler Demonstration</string>
+    <string name="lifecycle_demo">Because we installed the activity tracker in the Application\'s onCreate, switching to a new activity will automatically create log events.</string>
+    <string name="activity_lifecycle_demo">Activity Lifecycle Demo</string>
+</resources>
