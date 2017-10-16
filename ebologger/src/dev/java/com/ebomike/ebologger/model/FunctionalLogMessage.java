@@ -2,13 +2,13 @@ package com.ebomike.ebologger.model;
 
 import android.support.annotation.Nullable;
 
+import com.ebomike.ebologger.EboLogger;
 import com.ebomike.ebologger.EboLogger.LogLevel;
-import com.ebomike.ebologger.GlobalConfig;
-import com.ebomike.ebologger.LogSender;
-import com.ebomike.ebologger.LogSenderMgr;
 
 public class FunctionalLogMessage implements LogMessage, ReadableLogMessage {
     private final ProgramGraph graph;
+
+    private final EboLogger logger;
 
     private final LogLevel severity;
 
@@ -34,7 +34,9 @@ public class FunctionalLogMessage implements LogMessage, ReadableLogMessage {
     @Nullable
     private Throwable throwable;
 
-    public FunctionalLogMessage(ProgramGraph graph, LogLevel severity, long timestamp) {
+    public FunctionalLogMessage(EboLogger logger, ProgramGraph graph, LogLevel severity,
+                                long timestamp) {
+        this.logger = logger;
         this.graph = graph;
         this.severity = severity;
         this.timestamp = timestamp;
@@ -46,6 +48,7 @@ public class FunctionalLogMessage implements LogMessage, ReadableLogMessage {
     }
 
     private FunctionalLogMessage(FunctionalLogMessage other) {
+        logger = other.logger;
         graph = other.graph;
         severity = other.severity;
         timestamp = other.timestamp;
@@ -91,11 +94,7 @@ public class FunctionalLogMessage implements LogMessage, ReadableLogMessage {
     public void log(String message, Object... args) {
         formattedMessage = String.format(message, args);
 
-        GlobalConfig config = GlobalConfig.get();
-
-        for (LogSender sender : config.getLogSenders()) {
-            sender.sendMessage(this);
-        }
+        logger.sendMessage(this);
     }
 
     @Override

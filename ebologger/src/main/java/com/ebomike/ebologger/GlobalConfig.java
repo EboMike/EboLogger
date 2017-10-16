@@ -11,6 +11,12 @@ import java.util.List;
  * log message has been created.
  */
 public class GlobalConfig {
+    /** Sender ID that is used for the local logger (@link AndroidLogSender). */
+    public static final int DEFAULT_LOCAL_LOGGER_ID = 1;
+
+    /** Sender ID that is used for the stream logger (@link LogStreamSender). */
+    public static final int DEFAULT_STREAM_SENDER_ID = 2;
+
     /** The currently active global configuration. */
     private static GlobalConfig activeConfig;
 
@@ -28,15 +34,17 @@ public class GlobalConfig {
 
         private boolean disableDefaultSenders = false;
 
-        void disableDefaultSenders() {
+        public Builder disableDefaultSenders() {
             disableDefaultSenders = true;
+            return this;
         }
 
-        void addSender(LogSender sender) {
+        public Builder addSender(LogSender sender) {
             logSenders.add(sender);
+            return this;
         }
 
-        GlobalConfig build() {
+        public GlobalConfig build() {
             return new GlobalConfig(logSenders, disableDefaultSenders);
         }
     }

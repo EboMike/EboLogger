@@ -5,13 +5,14 @@ import android.support.annotation.Nullable;
 
 import com.ebomike.ebologger.android.AndroidLoggerFactory;
 import com.ebomike.ebologger.model.LogMessage;
+import com.ebomike.ebologger.model.ReadableLogMessage;
 
 /**
  * A logger, typically used per object, that allows for sending logging messages. These messages
  * can be shown in the native debugging interface (like Android's logcat) and can also be sent
  * across the network to a EboLogger host, which will store and visualize them. They could also
  * be saved in plaintext to a file. What exactly is done with them depends on which
- * {@link LogSender} implementations are active, see {@link LogSenderMgr}.
+ * {@link LogSender} implementations are active, see {@link GlobalConfig}.
  *
  * <p>The most common way to generate instantiate a logger is by adding
  *
@@ -53,49 +54,35 @@ public abstract class EboLogger {
         }
     };
 
-    @AnyThread
-    public static EboLogger get(Class clazz, boolean enabled) {
-        return get(clazz.getSimpleName(), null, enabled, FlavorSetup.DEFAULT_MIN_LEVEL_LOCAL);
-    }
+    private final Config config;
 
-    @AnyThread
-    public static EboLogger get(Object object, boolean enabled) {
-        return get(object.getClass().getSimpleName(), object, enabled,
-                FlavorSetup.DEFAULT_MIN_LEVEL_LOCAL);
-    }
-
-    @AnyThread
-    public static EboLogger get(Object object) {
-        return get(object, true);
+    protected EboLogger(Config config) {
+        this.config = config;
     }
 
     @AnyThread
     public static EboLogger get() {
-        return get(FlavorSetup.DEFAULT_MIN_LEVEL_LOCAL);
+        return new EboLogger.Builder().build();
     }
 
     @AnyThread
-    public static EboLogger get(LogLevel minSeverity) {
+    public static EboLogger get(Object object) {
+        return new EboLogger.Builder().setObject(object).build();
+    }
+
+    @AnyThread
+    private static String getCallingClassName() {
         StackTraceElement[] stElements = Thread.currentThread().getStackTrace();
 
         // Seems to be this:
         // 0=dalvik.system.VMStack
         // 1=java.lang.Thread
         // 2=com.ebomike.ebologger.EboLogger
-/*
-        Log.v("EboLOG", "Count=" + stElements.length);
-        Log.v("EboLOG", "0=" + stElements[0].getClassName());
-        Log.v("EboLOG", "1=" + stElements[1].getClassName());
-        Log.v("EboLOG", "2=" + stElements[2].getClassName());
-        Log.v("EboLOG", "3=" + stElements[3].getClassName());
-        Log.v("EboLOG", "-2=" + stElements[stElements.length-2].getClassName());
-        Log.v("EboLOG", "-1=" + stElements[stElements.length-1].getClassName());
-        */
         String className = "Base";
 
         for (int index = 3; index < stElements.length; index++) {
             className = stElements[index].getClassName();
-            if (!className.equals("com.ebomike.ebologger.EboLogger")) {
+            if (!className.startsWith("com.ebomike.ebologger.EboLogger")) {
                 int delimiter = className.lastIndexOf('.');
                 if (delimiter >= 0) {
                     className = className.substring(delimiter + 1);
@@ -104,16 +91,7 @@ public abstract class EboLogger {
             }
         }
 
-        return get(className, null, true, minSeverity);
-    }
-
-    @AnyThread
-    public static EboLogger get(String name, @Nullable Object object, boolean enabled,
-                                LogLevel minSeverity) {
-        int len = Math.min(name.length(), 15);
-        String tag = name.substring(0, len);
-
-        return AndroidLoggerFactory.createLogger(tag, object, minSeverity);
+        return className;
     }
 
     @AnyThread
@@ -212,6 +190,18 @@ public abstract class EboLogger {
     }
 
     @AnyThread
+    public void sendMessage(ReadableLogMessage message) {
+        GlobalConfig globalConfig = GlobalConfig.get();
+        LogLevel severity = message.getSeverity();
+
+        for (LogSender sender : globalConfig.getLogSenders()) {
+            if (config.shouldLog(sender.getSenderId(), severity)) {
+                sender.sendMessage(message);
+            }
+        }
+    }
+
+    @AnyThread
     protected abstract LogMessage createLogMessage(LogLevel severity);
 
     /**
@@ -219,4 +209,54 @@ public abstract class EboLogger {
      * the object that this logger was created for.
      **/
     protected abstract String getTag();
+
+    public static class Builder {
+        @Nullable
+        private String tag;
+
+        @Nullable
+        private Object object;
+
+        @Nullable
+        private LogLevel minSeverity;
+
+        @Nullable
+        private Config config;
+
+        public Builder setMinSeverity(LogLevel minSeverity) {
+            this.minSeverity = minSeverity;
+            return this;
+        }
+
+        public Builder setTag(String tag) {
+            this.tag = tag;
+            return this;
+        }
+
+        public Builder setObject(Object object) {
+            this.object = object;
+            return this;
+        }
+
+        public EboLogger build() {
+            if (config == null) {
+                config = Config.getBaseConfig();
+            }
+
+            if (minSeverity != null) {
+                config = new Config.Builder()
+                        .setParent(config)
+                        .setMinLevel(minSeverity)
+                        .build();
+            }
+
+            if (tag == null) {
+                String className = getCallingClassName();
+                int len = Math.min(className.length(), 15);
+                tag = className.substring(0, len);
+            }
+
+            return AndroidLoggerFactory.createLogger(tag, object, config);
+        }
+    }
 }

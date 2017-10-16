@@ -26,7 +26,10 @@ public class ActivityTracker implements Application.ActivityLifecycleCallbacks {
     @Nullable
     private static ActivityTracker instance = null;
 
-    private final EboLogger logger = EboLogger.get("ACTIVITY", null, true, LogLevel.DEBUG);
+    private final EboLogger logger = new EboLogger.Builder()
+            .setTag("ACTIVITY")
+            .setMinSeverity(LogLevel.DEBUG)
+            .build();
 
     private final Map<Activity, TrackedContext> activities = new HashMap<>();
 

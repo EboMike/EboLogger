@@ -9,10 +9,11 @@ import com.ebomike.ebologger.model.ReadableLogMessage;
  * consumed by a log server. The stream is unidirectional and could be a network connection or a
  * file.
  */
-public class LogStreamSender implements LogSender {
+public class LogStreamSender extends LogSender {
     private final ProgramGraph graph;
 
-    public LogStreamSender(ProgramGraph graph) {
+    public LogStreamSender(int senderId, ProgramGraph graph) {
+        super(senderId);
         this.graph = graph;
     }
 

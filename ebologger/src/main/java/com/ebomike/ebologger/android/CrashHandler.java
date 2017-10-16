@@ -23,7 +23,10 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
     public void uncaughtException(final Thread t, final Throwable e) {
         if (!triggered) {
             triggered = true;
-            EboLogger logger = EboLogger.get("CrashHandler", null, true, LogLevel.DEBUG);
+            EboLogger logger = new EboLogger.Builder()
+                    .setTag("CrashHandler")
+                    .setMinSeverity(LogLevel.DEBUG)
+                    .build();
 
             Throwable throwable = e;
 

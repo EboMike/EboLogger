@@ -8,12 +8,9 @@ import com.ebomike.ebologger.model.LogMessage;
 public class AndroidReleaseLogger extends EboLogger {
     private final String tag;
 
-    private final Config config;
-
-    public AndroidReleaseLogger(String tag, LogLevel minSeverity) {
+    public AndroidReleaseLogger(String tag, Config config) {
+        super(config);
         this.tag = tag;
-        //this.minSeverity = minSeverity;
-        config = new Config(minSeverity, minSeverity);
     }
 
     @Override

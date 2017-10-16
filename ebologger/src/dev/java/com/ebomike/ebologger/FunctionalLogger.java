@@ -15,14 +15,13 @@ public abstract class FunctionalLogger extends EboLogger {
 
     private final boolean createGraph = true;
 
-    private final LogLevel minSeverity;
-
     private final ProgramGraph graph = ProgramGraph.get();
 
-    public FunctionalLogger(String tag, @Nullable Object object, LogLevel minSeverity) {
+    public FunctionalLogger(String tag, @Nullable Object object, Config config) {
+        super(config);
+
         this.tag = tag;
         this.object = object;
-        this.minSeverity = minSeverity;
 
         if(object == null) {
             prefix = "";

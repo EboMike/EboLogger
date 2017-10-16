@@ -29,7 +29,10 @@ import java.util.Locale;
  * <code>{severity}</code> - single-letter indicator of the severity of the message<br>
  * <code>{message}</code> - the actual log message itself
  */
-public class AsciiLogSender implements LogSender {
+public class AsciiLogSender extends LogSender {
+    /** Default sender ID this sender uses unless overridden. */
+    public static final int SENDER_ID = 3;
+
     /** Default template if no other is provided. */
     private static final String DEFAULT_TEMPLATE = "{date} {severity} {message}\n";
 
@@ -50,7 +53,10 @@ public class AsciiLogSender implements LogSender {
     /** The formatter used for time stamps. */
     private final SimpleDateFormat formatter;
 
-    private AsciiLogSender(Writer writer, String template, SimpleDateFormat formatter) {
+    private AsciiLogSender(int senderId, Writer writer, String template,
+                           SimpleDateFormat formatter) {
+        super(senderId);
+
         this.template = template;
         this.writer = writer;
         this.formatter = formatter;
@@ -133,7 +139,7 @@ public class AsciiLogSender implements LogSender {
                 throw new IllegalArgumentException("AsciiLogSender needs a writer.");
             }
 
-            return new AsciiLogSender(writer, template, formatter);
+            return new AsciiLogSender(SENDER_ID, writer, template, formatter);
         }
     }
 }

@@ -2,19 +2,20 @@ package com.ebomike.ebologger.android;
 
 import android.support.annotation.Nullable;
 
+import com.ebomike.ebologger.Config;
 import com.ebomike.ebologger.FunctionalLogger;
 import com.ebomike.ebologger.model.FunctionalLogMessage;
 import com.ebomike.ebologger.model.LogMessage;
 
 class AndroidLogger extends FunctionalLogger {
-    AndroidLogger(String tag, @Nullable Object object, LogLevel minSeverity) {
-        super(tag, object, minSeverity);
+    AndroidLogger(String tag, @Nullable Object object, Config config) {
+        super(tag, object, config);
     }
 
     @Override
     protected LogMessage createLogMessage(LogLevel severity) {
         // TODO: Return dummy message if this does not meet the threshold.
-        return new FunctionalLogMessage(getGraph(), severity, System.currentTimeMillis())
+        return new FunctionalLogMessage(this, getGraph(), severity, System.currentTimeMillis())
                 .object(getObject()).tag(getTag());
     }
 }
