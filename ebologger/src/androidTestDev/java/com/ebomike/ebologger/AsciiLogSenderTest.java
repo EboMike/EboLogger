@@ -14,6 +14,7 @@ import java.io.Writer;
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
@@ -30,7 +31,6 @@ public class AsciiLogSenderTest {
 
     private ReadableLogMessage log;
 
-
     @Before
     public void setUp() {
         output = new ByteArrayOutputStream();
@@ -41,6 +41,8 @@ public class AsciiLogSenderTest {
         when(log.getTimestamp()).thenReturn(203587200123L);
         when(log.getSeverity()).thenReturn(LogLevel.WARNING);
         when(log.getFormattedMessage()).thenReturn("Test Formatted Message");
+
+        TimeZone.setDefault(TimeZone.getTimeZone("America/Los_Angeles"));
     }
 
     @Test
@@ -50,7 +52,7 @@ public class AsciiLogSenderTest {
                 .build();
 
         sender.sendMessage(log);
-        expectMessage("06-14 08:00:00.123 W Test Formatted Message\n");
+        expectMessage("06-14 01:00:00.123 W Test Formatted Message\n");
     }
 
     @Test
@@ -77,8 +79,8 @@ public class AsciiLogSenderTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testMissingWriter() throws Exception {
-        AsciiLogSender sender = new AsciiLogSender.Builder()
-                .build();
+        // Should fail because no writer was provided.
+        new AsciiLogSender.Builder().build();
     }
 
     private void expectMessage(String expectedMessage) throws Exception {
