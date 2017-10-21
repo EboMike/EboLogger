@@ -4,6 +4,7 @@ import com.ebomike.ebologger.Config;
 import com.ebomike.ebologger.EboLogger;
 import com.ebomike.ebologger.model.DummyLogMessage;
 import com.ebomike.ebologger.model.LogMessage;
+import com.ebomike.ebologger.model.SimpleLogMessage;
 
 public class AndroidReleaseLogger extends EboLogger {
     private final String tag;
@@ -15,7 +16,7 @@ public class AndroidReleaseLogger extends EboLogger {
 
     @Override
     protected LogMessage createLogMessage(LogLevel severity) {
-        return new DummyLogMessage();
+        return new SimpleLogMessage(this, tag, severity);
     }
 
     @Override
