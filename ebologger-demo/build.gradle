@@ -15,6 +15,10 @@ android {
 
     }
     buildTypes {
+        prodTest {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -28,6 +32,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     debugCompile project(path: ':ebologger', configuration: 'devDebug')
+    prodTestCompile project(path: ':ebologger', configuration: 'prodDebug')
     releaseCompile project(path: ':ebologger', configuration: 'prodRelease')
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
