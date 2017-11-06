@@ -40,6 +40,7 @@ public class AsciiLogSenderTest {
         log = mock(ReadableLogMessage.class);
         when(log.getTimestamp()).thenReturn(203587200123L);
         when(log.getSeverity()).thenReturn(LogLevel.WARNING);
+        when(log.getTag()).thenReturn("MyTag");
         when(log.getFormattedMessage()).thenReturn("Test Formatted Message");
 
         TimeZone.setDefault(TimeZone.getTimeZone("America/Los_Angeles"));
@@ -52,7 +53,7 @@ public class AsciiLogSenderTest {
                 .build();
 
         sender.sendMessage(log);
-        expectMessage("06-14 01:00:00.123 W Test Formatted Message\n");
+        expectMessage("06-14 01:00:00.123 W MyTag: Test Formatted Message\n");
     }
 
     @Test
@@ -74,7 +75,19 @@ public class AsciiLogSenderTest {
                 .build();
 
         sender.sendMessage(log);
-        expectMessage("Jun W Test Formatted Message\n");
+        expectMessage("Jun W MyTag: est Formatted Message\n");
+    }
+
+    @Test
+    public void testNullArgs() throws Exception {
+        AsciiLogSender sender = new AsciiLogSender.Builder()
+                .writer(writer)
+                .build();
+
+        when(log.getTag()).thenReturn(null);
+
+        sender.sendMessage(log);
+        expectMessage("06-14 01:00:00.123 W (null): Test Formatted Message\n");
     }
 
     @Test(expected = IllegalArgumentException.class)

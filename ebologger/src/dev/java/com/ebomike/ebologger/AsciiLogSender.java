@@ -14,6 +14,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import static com.ebomike.ebologger.LogArgsBase.nullable;
+
 /**
  * Implementation of the {@link LogSender} that writes all log messages in human-readable
  * ASCII format to the provided Writer (typically a FileWriter to save the log to a file).
@@ -27,6 +29,7 @@ import java.util.Locale;
  * <p>
  * <code>{date}</code> - the timestamp of the message<br>
  * <code>{severity}</code> - single-letter indicator of the severity of the message<br>
+ * <code>{tag}</code> - the tag associated with the message, or "(null)"<br>
  * <code>{message}</code> - the actual log message itself
  */
 public class AsciiLogSender extends LogSender {
@@ -34,7 +37,7 @@ public class AsciiLogSender extends LogSender {
     public static final int SENDER_ID = 3;
 
     /** Default template if no other is provided. */
-    private static final String DEFAULT_TEMPLATE = "{date} {severity} {message}\n";
+    private static final String DEFAULT_TEMPLATE = "{date} {severity} {tag}: {message}\n";
 
     /** Default date formatter to mimick Android's date format. */
     private static final SimpleDateFormat DEFAULT_DATE_FORMAT =
@@ -83,6 +86,7 @@ public class AsciiLogSender extends LogSender {
         result = result.replace("{date}", formatter.format(new Date(message.getTimestamp())));
         result = result.replace("{message}", message.getFormattedMessage());
         result = result.replace("{severity}", message.getSeverity().name().substring(0, 1));
+        result = result.replace("{tag}", nullable(message.getTag()));
 
         return result;
     }
