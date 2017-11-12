@@ -56,13 +56,17 @@ public class AsciiLogSender extends LogSender {
     /** The formatter used for time stamps. */
     private final SimpleDateFormat formatter;
 
+    /** Whether or not to flush after every line. */
+    private final boolean autoFlush;
+
     private AsciiLogSender(int senderId, Writer writer, String template,
-                           SimpleDateFormat formatter) {
+                           SimpleDateFormat formatter, boolean autoFlush) {
         super(senderId);
 
         this.template = template;
         this.writer = writer;
         this.formatter = formatter;
+        this.autoFlush = autoFlush;
     }
 
     @Override
@@ -71,6 +75,9 @@ public class AsciiLogSender extends LogSender {
             String line = expandTemplate(message);
             try {
                 writer.write(line);
+                if (autoFlush) {
+                    writer.flush();
+                }
             } catch (IOException e) {
                 // Set the writer to null so we won't try to write again.
                 writer = null;
@@ -101,6 +108,8 @@ public class AsciiLogSender extends LogSender {
         private SimpleDateFormat formatter = DEFAULT_DATE_FORMAT;
 
         private Writer writer = null;
+
+        private boolean autoFlush = true;
 
         /**
          * Overrides the formatter to create timestamp strings.
@@ -136,6 +145,14 @@ public class AsciiLogSender extends LogSender {
         }
 
         /**
+         * Whether or not to automatically flush the writer after every single line.
+         */
+        public Builder autoFlush(boolean autoFlush) {
+            this.autoFlush = autoFlush;
+            return this;
+        }
+
+        /**
          * Create an actual {@link AsciiLogSender} object from all the parameters provided.
          */
         public AsciiLogSender build() {
@@ -143,7 +160,7 @@ public class AsciiLogSender extends LogSender {
                 throw new IllegalArgumentException("AsciiLogSender needs a writer.");
             }
 
-            return new AsciiLogSender(SENDER_ID, writer, template, formatter);
+            return new AsciiLogSender(SENDER_ID, writer, template, formatter, autoFlush);
         }
     }
 }
