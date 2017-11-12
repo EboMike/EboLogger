@@ -75,7 +75,7 @@ public class AsciiLogSenderTest {
                 .build();
 
         sender.sendMessage(log);
-        expectMessage("Jun W MyTag: est Formatted Message\n");
+        expectMessage("Jun W MyTag: Test Formatted Message\n");
     }
 
     @Test
