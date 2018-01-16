@@ -14,6 +14,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import static com.ebomike.ebologger.LogArgsBase.nullable;
+
 /**
  * Implementation of the {@link LogSender} that writes all log messages in human-readable
  * ASCII format to the provided Writer (typically a FileWriter to save the log to a file).
@@ -27,6 +29,7 @@ import java.util.Locale;
  * <p>
  * <code>{date}</code> - the timestamp of the message<br>
  * <code>{severity}</code> - single-letter indicator of the severity of the message<br>
+ * <code>{tag}</code> - the tag associated with the message, or "(null)"<br>
  * <code>{message}</code> - the actual log message itself
  */
 public class AsciiLogSender extends LogSender {
@@ -34,7 +37,7 @@ public class AsciiLogSender extends LogSender {
     public static final int SENDER_ID = 3;
 
     /** Default template if no other is provided. */
-    private static final String DEFAULT_TEMPLATE = "{date} {severity} {message}\n";
+    private static final String DEFAULT_TEMPLATE = "{date} {severity} {tag}: {message}\n";
 
     /** Default date formatter to mimick Android's date format. */
     private static final SimpleDateFormat DEFAULT_DATE_FORMAT =
@@ -53,13 +56,17 @@ public class AsciiLogSender extends LogSender {
     /** The formatter used for time stamps. */
     private final SimpleDateFormat formatter;
 
+    /** Whether or not to flush after every line. */
+    private final boolean autoFlush;
+
     private AsciiLogSender(int senderId, Writer writer, String template,
-                           SimpleDateFormat formatter) {
+                           SimpleDateFormat formatter, boolean autoFlush) {
         super(senderId);
 
         this.template = template;
         this.writer = writer;
         this.formatter = formatter;
+        this.autoFlush = autoFlush;
     }
 
     @Override
@@ -68,6 +75,9 @@ public class AsciiLogSender extends LogSender {
             String line = expandTemplate(message);
             try {
                 writer.write(line);
+                if (autoFlush) {
+                    writer.flush();
+                }
             } catch (IOException e) {
                 // Set the writer to null so we won't try to write again.
                 writer = null;
@@ -83,6 +93,7 @@ public class AsciiLogSender extends LogSender {
         result = result.replace("{date}", formatter.format(new Date(message.getTimestamp())));
         result = result.replace("{message}", message.getFormattedMessage());
         result = result.replace("{severity}", message.getSeverity().name().substring(0, 1));
+        result = result.replace("{tag}", nullable(message.getTag()));
 
         return result;
     }
@@ -97,6 +108,8 @@ public class AsciiLogSender extends LogSender {
         private SimpleDateFormat formatter = DEFAULT_DATE_FORMAT;
 
         private Writer writer = null;
+
+        private boolean autoFlush = true;
 
         /**
          * Overrides the formatter to create timestamp strings.
@@ -132,6 +145,14 @@ public class AsciiLogSender extends LogSender {
         }
 
         /**
+         * Whether or not to automatically flush the writer after every single line.
+         */
+        public Builder autoFlush(boolean autoFlush) {
+            this.autoFlush = autoFlush;
+            return this;
+        }
+
+        /**
          * Create an actual {@link AsciiLogSender} object from all the parameters provided.
          */
         public AsciiLogSender build() {
@@ -139,7 +160,7 @@ public class AsciiLogSender extends LogSender {
                 throw new IllegalArgumentException("AsciiLogSender needs a writer.");
             }
 
-            return new AsciiLogSender(SENDER_ID, writer, template, formatter);
+            return new AsciiLogSender(SENDER_ID, writer, template, formatter, autoFlush);
         }
     }
 }
