@@ -82,17 +82,16 @@ public class SendQueue extends Thread {
 
             ByteArrayOutputStream byteStream = null;
 
-            if (!terminated) {
-                if (availableBuffers.isEmpty()) {
-                    Log.w(TAG, "Send queue full - blocking now");
+            if (availableBuffers.isEmpty()) {
+                if (!terminated) {
+                    Log.e(TAG, "Send queue jammed - terminating");
+                    terminated = true;
                 }
-                byteStream = availableBuffers.poll(5, TimeUnit.SECONDS); /*.take();*/
-            }
-
-            if (byteStream == null) {
-                Log.e(TAG, "Send queue jammed - terminating");
-                terminated = true;
                 byteStream = new ByteArrayOutputStream(1024);
+
+//                Log.w(TAG, "Send queue full - blocking now");
+            } else {
+                byteStream = availableBuffers.poll(5, TimeUnit.SECONDS); /*.take();*/
             }
 
             DataOutputStream buffer = new DataOutputStream(byteStream);
@@ -130,6 +129,10 @@ public class SendQueue extends Thread {
 
         if (!terminated) {
             sendQueue.add(buffers.first);
+        } else {
+            // Dismiss the buffer immediately.
+            buffers.first.reset();
+            availableBuffers.add(buffers.first);
         }
     }
 
