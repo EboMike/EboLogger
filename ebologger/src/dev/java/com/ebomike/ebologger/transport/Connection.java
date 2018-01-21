@@ -53,6 +53,7 @@ public class Connection {
             DataOutputStream toClientStream = connector.connect();
 
             if (toClientStream == null) {
+                sendQueue.terminate();
                 throw new IOException("Failed to connect via " + connector);
             }
 
