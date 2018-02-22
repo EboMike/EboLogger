@@ -28,7 +28,8 @@ public class LogStreamSender extends LogSender {
         // Temporary - also add the throwable message itself.
         if (message.getThrowable() != null && message.getThrowable().getMessage() != null) {
             // TODO:
-//            FunctionalLogMessage throwableMessage = new FunctionalLogMessage(this);
+//            FunctionalLogMessage throwableMessage =
+//                    new FunctionalLogMessage(message, message.getThrowable().getMessage());
 //            throwableMessage.setFormattedMessage(message.getThrowable().getMessage());
 //            graph.log(throwableMessage);
         }
