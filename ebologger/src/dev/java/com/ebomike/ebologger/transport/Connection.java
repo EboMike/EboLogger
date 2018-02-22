@@ -95,14 +95,40 @@ public class Connection {
 
     public void sendLogEntry(ReadableLogMessage logMessage) {
         int tagId = createTagId(logMessage.getTag());
+        sendLogEntry(logMessage, tagId, logMessage.getFormattedMessage());
 
+        if (logMessage.getThrowable() != null && logMessage.getThrowable().getMessage() != null) {
+            sendLogEntry(logMessage, tagId, logMessage.getThrowable());
+        }
+    }
+
+    private void sendLogEntry(ReadableLogMessage logMessage, int tagId, Throwable throwable) {
+        sendLogEntry(logMessage, tagId, throwable.getMessage());
+
+        StackTraceElement[] stackTrace = throwable.getStackTrace();
+
+        for (StackTraceElement element : stackTrace) {
+            sendLogEntry(logMessage, tagId, String.format("%s.%s (%s:%d)",
+                    element.getClassName(),
+                    element.getMethodName(),
+                    element.getFileName(),
+                    element.getLineNumber()));
+        }
+
+        if (throwable.getCause() != null) {
+            sendLogEntry(logMessage, tagId, "Caused by:");
+            sendLogEntry(logMessage, tagId, throwable.getCause());
+        }
+    }
+
+    private void sendLogEntry(ReadableLogMessage logMessage, int tagId, String formattedMessage) {
         DataOutputStream out = sendQueue.startCommand(Commands.LOGMSG);
         try {
             out.writeLong(logMessage.getTimestamp());
             out.write(logMessage.getSeverity().getSeverity());
             out.writeInt(logMessage.getMarker() != null ? logMessage.getMarker().getId() : 0);
             out.writeInt(tagId);
-            out.writeUTF(logMessage.getFormattedMessage());
+            out.writeUTF(formattedMessage);
             out.writeInt(logMessage.getContext() != null ? logMessage.getContext().getId() : 0);
             out.writeInt(logMessage.getObject() != null ? logMessage.getObject().getId() : 0);
             out.writeInt(logMessage.getThread().getId());
