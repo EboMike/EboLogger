@@ -132,7 +132,7 @@ public class SendQueue extends Thread {
         } else {
             // Dismiss the buffer immediately.
             buffers.first.reset();
-            availableBuffers.add(buffers.first);
+//            availableBuffers.add(buffers.first);
         }
     }
 
