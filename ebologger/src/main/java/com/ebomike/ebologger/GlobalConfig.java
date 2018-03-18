@@ -49,6 +49,11 @@ public class GlobalConfig {
         }
     }
 
+    /**
+     * This will activate this configuration, so when the next log message is created, this
+     * configuration will be used. This must be called before any log messages are created, or
+     * else the call with throw an IllegalStateException.
+     */
     public void activate() {
         // Make sure we {@link #get} has not been called yet. Once the config has been read, it
         // can no longer be changed.
