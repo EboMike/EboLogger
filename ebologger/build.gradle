@@ -36,8 +36,6 @@ android {
             dimension 'env'
         }
     }
-
-    publishNonDefault true
 }
 
 dependencies {
