@@ -15,12 +15,16 @@ android {
     buildTypes {
         debug {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             debuggable true
         }
         release {
-            minifyEnabled false /*true*/
+            minifyEnabled false
+            debuggable false
+        }
+        optRelease {
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            debuggable false
         }
     }
 
@@ -35,6 +39,10 @@ android {
             versionNameSuffix "-prod"
             dimension 'env'
         }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
