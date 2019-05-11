@@ -6,6 +6,10 @@ import com.sun.istack.internal.Nullable;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+/**
+ * A single log message. Aside from the main text, a log entry may have a lot of other metadata
+ * associated with it: Timestamp, severity, thread, stack trace, and more.
+ */
 public class LogMsg implements StreamSerializable {
     private final int id;
 

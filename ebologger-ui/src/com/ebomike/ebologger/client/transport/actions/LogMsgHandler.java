@@ -7,6 +7,10 @@ import com.ebomike.ebologger.client.transport.CommandHandler;
 import java.io.DataInputStream;
 import java.io.IOException;
 
+/**
+ * {@link CommandHandler} that processes an incoming command introducing a new logging message
+ * ({@link LogMsg}).
+ */
 public class LogMsgHandler implements CommandHandler {
     @Override
     public void execute(CommandContext context, DataInputStream input, int version) throws IOException {
