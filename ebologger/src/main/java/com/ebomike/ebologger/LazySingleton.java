@@ -1,7 +1,7 @@
 package com.ebomike.ebologger;
 
-import android.support.annotation.AnyThread;
-import android.support.annotation.Nullable;
+import androidx.annotation.AnyThread;
+import androidx.annotation.Nullable;
 
 public abstract class LazySingleton<T> {
     /**

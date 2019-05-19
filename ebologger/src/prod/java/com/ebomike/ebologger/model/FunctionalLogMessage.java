@@ -1,6 +1,7 @@
 package com.ebomike.ebologger.model;
 
 import androidx.annotation.Nullable;
+
 import com.ebomike.ebologger.EboLogger;
 
 public class FunctionalLogMessage implements LogMessage, ReadableLogMessage {
