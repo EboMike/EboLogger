@@ -71,6 +71,11 @@ public abstract class EboLogger {
     }
 
     @AnyThread
+    public static EboLogger get(Object object, String tag) {
+        return new EboLogger.Builder().setObject(object).setTag(tag).build();
+    }
+
+    @AnyThread
     private static String getCallingClassName() {
         StackTraceElement[] stElements = Thread.currentThread().getStackTrace();
 
