@@ -1,6 +1,6 @@
 package com.ebomike.ebologger;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 /**
  * Collection of functions that allow for sanitizing and modifying arguments in log strings.

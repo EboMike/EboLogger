@@ -1,5 +1,7 @@
 package com.ebomike.ebologger;
 
+import androidx.annotation.VisibleForTesting;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -106,5 +108,10 @@ public class GlobalConfig {
             activeConfig.used = true;
             return activeConfig;
         }
+    }
+
+    @VisibleForTesting
+    public static void reset() {
+        activeConfig = null;
     }
 }

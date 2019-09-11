@@ -1,6 +1,6 @@
 package com.ebomike.ebologger;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 public class LogContextFactory {
     private static final NullLogContext DUMMY_CONTEXT = new NullLogContext();

@@ -5,9 +5,9 @@ import android.app.Application;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.AnyThread;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
+import androidx.annotation.AnyThread;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import com.ebomike.ebologger.EboLogger;
 import com.ebomike.ebologger.LogContextFactory;
