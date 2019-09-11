@@ -1,8 +1,9 @@
 package com.ebomike.ebologgerdemo;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class CrashDemo extends AppCompatActivity {
 
