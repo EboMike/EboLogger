@@ -1,7 +1,8 @@
 package com.ebomike.ebologgerdemo;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class ActivityLifecycleDemo extends AppCompatActivity {
 
