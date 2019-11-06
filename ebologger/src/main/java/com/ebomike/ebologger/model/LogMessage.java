@@ -1,6 +1,6 @@
 package com.ebomike.ebologger.model;
 
-import android.support.annotation.AnyThread;
+import androidx.annotation.AnyThread;
 
 public interface LogMessage {
     LogMessage exception(Throwable throwable);

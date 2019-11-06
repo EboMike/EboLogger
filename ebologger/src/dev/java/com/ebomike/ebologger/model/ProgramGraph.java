@@ -1,7 +1,7 @@
 package com.ebomike.ebologger.model;
 
-import android.support.annotation.AnyThread;
-import android.support.annotation.Nullable;
+import androidx.annotation.AnyThread;
+import androidx.annotation.Nullable;
 
 import com.ebomike.ebologger.FunctionalLogger;
 import com.ebomike.ebologger.TransportRouter;

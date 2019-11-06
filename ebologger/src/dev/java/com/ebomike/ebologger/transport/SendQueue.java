@@ -1,9 +1,9 @@
 package com.ebomike.ebologger.transport;
 
-import android.support.v4.util.Pair;
 import android.util.Log;
 
-import java.io.ByteArrayInputStream;
+import androidx.core.util.Pair;
+
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;

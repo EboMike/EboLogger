@@ -1,6 +1,6 @@
 package com.ebomike.ebologger;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.ebomike.ebologger.model.ProgramGraph;
 import com.ebomike.ebologger.model.TrackedThread;

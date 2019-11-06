@@ -1,7 +1,7 @@
 package com.ebomike.ebologger.transport;
 
-import android.support.annotation.Nullable;
-import android.support.annotation.WorkerThread;
+import androidx.annotation.Nullable;
+import androidx.annotation.WorkerThread;
 import android.util.Log;
 
 import java.io.DataOutputStream;
