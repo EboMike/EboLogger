@@ -2,7 +2,8 @@ package com.ebomike.ebologger.android;
 
 import android.app.Application;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
+
+import androidx.annotation.RequiresApi;
 
 @RequiresApi(api = Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class ActivityTracker {
