@@ -2,7 +2,6 @@ package com.ebomike.ebologger.android;
 
 import com.ebomike.ebologger.Config;
 import com.ebomike.ebologger.EboLogger;
-import com.ebomike.ebologger.model.DummyLogMessage;
 import com.ebomike.ebologger.model.LogMessage;
 import com.ebomike.ebologger.model.SimpleLogMessage;
 

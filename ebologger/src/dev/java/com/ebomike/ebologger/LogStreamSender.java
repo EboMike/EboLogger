@@ -1,6 +1,5 @@
 package com.ebomike.ebologger;
 
-import com.ebomike.ebologger.model.FunctionalLogMessage;
 import com.ebomike.ebologger.model.ProgramGraph;
 import com.ebomike.ebologger.model.ReadableLogMessage;
 

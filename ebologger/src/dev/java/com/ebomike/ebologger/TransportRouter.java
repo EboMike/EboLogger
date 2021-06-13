@@ -1,14 +1,10 @@
 package com.ebomike.ebologger;
 
-import android.app.Application;
-import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.ebomike.ebologger.android.AndroidFileConnector;
 import com.ebomike.ebologger.transport.Connection;
 import com.ebomike.ebologger.transport.Connector;
-import com.ebomike.ebologger.transport.FileConnector;
 import com.ebomike.ebologger.transport.NetworkConnector;
 
 public class TransportRouter {

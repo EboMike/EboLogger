@@ -3,7 +3,6 @@ package com.ebomike.ebologger.model;
 import androidx.annotation.AnyThread;
 import androidx.annotation.Nullable;
 
-import com.ebomike.ebologger.FunctionalLogger;
 import com.ebomike.ebologger.TransportRouter;
 
 import java.util.HashMap;

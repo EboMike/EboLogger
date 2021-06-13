@@ -1,12 +1,10 @@
 package com.ebomike.ebologger;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.VisibleForTesting;
 
 import com.ebomike.ebologger.model.ReadableLogMessage;
 
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
