@@ -29,7 +29,7 @@ public class FileConnector implements Connector {
      * Generates a filename using the current time and date.
      */
     protected static String getName() {
-        SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd-HH-mm-ss", Locale.US);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss", Locale.US);
         return String.format("ebologger-%s.elb", sdf.format(new Date()));
     }
 
