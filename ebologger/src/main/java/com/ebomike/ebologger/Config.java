@@ -103,7 +103,7 @@ public class Config {
      * mutable. The builder is mostly provided as a convenience to make creating a Config easier.
      */
     public static class Builder {
-        private Config config = new Config();
+        private final Config config = new Config();
 
         public Builder setMinLevel(LogLevel minLevel) {
             config.setMinLevel(minLevel);

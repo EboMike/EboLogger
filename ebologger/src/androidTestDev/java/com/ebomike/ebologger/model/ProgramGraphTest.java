@@ -10,11 +10,11 @@ import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertThat;
 
 public class ProgramGraphTest {
-    private StackTraceElement frame1 = new StackTraceElement("FooClass", "bar", "FooClass.java", 100);
-    private StackTraceElement frame2 = new StackTraceElement("FooClass", "foobar", "FooClass.java", 230);
-    private StackTraceElement frame3 = new StackTraceElement("SubClass", "sump", "SubClass.java", 38);
-    private StackTraceElement frame4 = new StackTraceElement("SubClass", "sump", "SubClass.java", 130);
-    private StackTraceElement frame5 = new StackTraceElement("FooClass", "blorb", "FooClass.java", 15);
+    private final StackTraceElement frame1 = new StackTraceElement("FooClass", "bar", "FooClass.java", 100);
+    private final StackTraceElement frame2 = new StackTraceElement("FooClass", "foobar", "FooClass.java", 230);
+    private final StackTraceElement frame3 = new StackTraceElement("SubClass", "sump", "SubClass.java", 38);
+    private final StackTraceElement frame4 = new StackTraceElement("SubClass", "sump", "SubClass.java", 130);
+    private final StackTraceElement frame5 = new StackTraceElement("FooClass", "blorb", "FooClass.java", 15);
 
     @Test
     public void testGetHierarchy() throws Exception {

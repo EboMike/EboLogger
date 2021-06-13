@@ -40,7 +40,7 @@ public class SendQueue extends Thread {
     // If true, this connection is no longer good.
     private boolean terminated;
 
-    private int sent = 0;
+    private final int sent = 0;
 
     @SuppressWarnings("ObjectAllocationInLoop")
     public SendQueue() {

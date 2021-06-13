@@ -18,7 +18,7 @@ public class ProgramGraph {
     // Master switch to disable the graph. Useful if we're not connected to the logger client.
     private boolean disabled;
 
-    private Map<Long, CallHierarchy> partialStackTraces = new HashMap<>();
+    private final Map<Long, CallHierarchy> partialStackTraces = new HashMap<>();
 
     public static class TrackedClass extends NamedObject {
         public TrackedClass(String name) {
