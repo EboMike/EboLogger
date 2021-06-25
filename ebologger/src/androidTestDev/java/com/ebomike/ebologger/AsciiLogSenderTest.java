@@ -12,6 +12,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -23,7 +24,7 @@ import static org.mockito.Mockito.when;
 
 @RunWith(JUnit4.class)
 public class AsciiLogSenderTest {
-    private static final Charset CHARSET = Charset.forName("UTF-8");
+    private static final Charset CHARSET = StandardCharsets.UTF_8;
 
     private ByteArrayOutputStream output;
 

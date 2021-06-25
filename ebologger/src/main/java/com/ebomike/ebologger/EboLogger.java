@@ -52,9 +52,9 @@ public abstract class EboLogger {
         public int getSeverity() {
             return severity;
         }
-    };
+    }
 
-    private final Config config;
+  private final Config config;
 
     protected EboLogger(Config config) {
         this.config = config;
