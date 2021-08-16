@@ -7,20 +7,16 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         debug {
             minifyEnabled false
-            debuggable true
         }
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            debuggable false
         }
     }
 
@@ -28,11 +24,9 @@ android {
 
     productFlavors {
         dev {
-            versionNameSuffix "-dev"
             dimension 'env'
         }
         prod {
-            versionNameSuffix "-prod"
             dimension 'env'
         }
     }
