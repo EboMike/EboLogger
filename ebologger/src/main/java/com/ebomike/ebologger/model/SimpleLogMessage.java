@@ -5,6 +5,10 @@ import androidx.annotation.Nullable;
 import com.ebomike.ebologger.EboLogger;
 import com.ebomike.ebologger.EboLogger.LogLevel;
 
+/**
+ * A more lightweight implementation of {@link LogMessage} that ignores more heavyweight components
+ * such as object, marker, or call hierarchy.
+ */
 public class SimpleLogMessage implements LogMessage, ReadableLogMessage {
     private final EboLogger logger;
 

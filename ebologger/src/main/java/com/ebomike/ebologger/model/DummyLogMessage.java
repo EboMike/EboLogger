@@ -1,5 +1,6 @@
 package com.ebomike.ebologger.model;
 
+/** Implementation of {@link LogMessage} that doesn't do anything. */
 public class DummyLogMessage implements LogMessage {
     /** A dummy log message is immutable, so we only need one instance. */
     public static final DummyLogMessage DUMMY_LOG_MESSAGE = new DummyLogMessage();
@@ -27,4 +28,6 @@ public class DummyLogMessage implements LogMessage {
     @Override
     public final void log(String message, Object... args) {
     }
+
+    private DummyLogMessage() {}
 }
