@@ -4,6 +4,7 @@ import androidx.annotation.AnyThread;
 import androidx.annotation.Nullable;
 
 import com.ebomike.ebologger.android.AndroidLoggerFactory;
+import com.ebomike.ebologger.model.DummyLogMessage;
 import com.ebomike.ebologger.model.LogMessage;
 import com.ebomike.ebologger.model.ReadableLogMessage;
 
@@ -147,32 +148,32 @@ public abstract class EboLogger {
 
   @AnyThread
   public final LogMessage debug() {
-    return createLogMessage(LogLevel.DEBUG);
+    return createLogMessageWithSeverityFilter(LogLevel.DEBUG);
   }
 
   @AnyThread
   public final LogMessage verbose() {
-    return createLogMessage(LogLevel.VERBOSE);
+    return createLogMessageWithSeverityFilter(LogLevel.VERBOSE);
   }
 
   @AnyThread
   public final LogMessage info() {
-    return createLogMessage(LogLevel.INFO);
+    return createLogMessageWithSeverityFilter(LogLevel.INFO);
   }
 
   @AnyThread
   public final LogMessage warning() {
-    return createLogMessage(LogLevel.WARNING);
+    return createLogMessageWithSeverityFilter(LogLevel.WARNING);
   }
 
   @AnyThread
   public final LogMessage error() {
-    return createLogMessage(LogLevel.ERROR);
+    return createLogMessageWithSeverityFilter(LogLevel.ERROR);
   }
 
   @AnyThread
   public final LogMessage wtf() {
-    return createLogMessage(LogLevel.WTF);
+    return createLogMessageWithSeverityFilter(LogLevel.WTF);
   }
 
   @AnyThread
@@ -187,8 +188,32 @@ public abstract class EboLogger {
     }
   }
 
+  private boolean shouldLog(LogLevel severity) {
+    GlobalConfig globalConfig = GlobalConfig.get();
+
+    for (LogSender sender : globalConfig.getLogSenders()) {
+      if (config.shouldLog(sender.getSenderId(), severity)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   @AnyThread
   protected abstract LogMessage createLogMessage(LogLevel severity);
+
+  /**
+   * Creates a {@link LogMessage} based on the severity. Returns a null-op LogMessage if the
+   * severity is too low.
+   */
+  private LogMessage createLogMessageWithSeverityFilter(LogLevel severity) {
+    if (!shouldLog(severity)) {
+      return DummyLogMessage.DUMMY_LOG_MESSAGE;
+    }
+
+    return createLogMessage(severity);
+  }
 
   /**
    * Returns the logging tag to use by default for this logger. This is often the class name of
