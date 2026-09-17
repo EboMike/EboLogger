@@ -3,15 +3,14 @@ package com.ebomike.ebologger.android;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
+
 import androidx.annotation.AnyThread;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 
 import com.ebomike.ebologger.EboLogger;
-import com.ebomike.ebologger.LogContextFactory;
 import com.ebomike.ebologger.EboLogger.LogLevel;
+import com.ebomike.ebologger.LogContextFactory;
 import com.ebomike.ebologger.model.TrackedContext;
 
 import java.util.HashMap;
@@ -21,7 +20,6 @@ import java.util.Map;
  * Sends a log message whenever a lifecycle change in an activity occurs (onCreate, onStart,
  * onResume, and its counterparts).
  */
-@RequiresApi(api = Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class ActivityTracker implements Application.ActivityLifecycleCallbacks {
     @Nullable
     private static ActivityTracker instance = null;
@@ -87,6 +85,7 @@ public class ActivityTracker implements Application.ActivityLifecycleCallbacks {
 
             if (extras != null) {
                 for (String key : extras.keySet()) {
+                    @SuppressWarnings("deprecation")
                     Object value = extras.get(key);
                     if (value != null) {
                         logger.verbose().log("Intent Extra: %s, type: %s, value: %s",
