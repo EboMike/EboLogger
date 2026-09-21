@@ -99,8 +99,7 @@ public class AsciiLogSenderTest {
 
     private void expectMessage(String expectedMessage) throws Exception {
         writer.close();
-        byte[] data = output.toByteArray();
-        String actualMessage = new String(data, CHARSET);
+      String actualMessage = output.toString(CHARSET);
         assertThat(actualMessage, equalTo(expectedMessage));
     }
 }
