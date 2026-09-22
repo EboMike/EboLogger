@@ -1,5 +1,8 @@
 package com.ebomike.ebologger;
 
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+
 import com.ebomike.ebologger.EboLogger.LogLevel;
 import com.ebomike.ebologger.android.AndroidLogConnector;
 
@@ -7,9 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 public class ProdLoggerTest {
     @Mock
