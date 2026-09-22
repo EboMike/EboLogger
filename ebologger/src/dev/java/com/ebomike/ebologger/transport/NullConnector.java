@@ -6,9 +6,9 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class NullConnector implements Connector {
-    @Nullable
-    @Override
-    public DataOutputStream connect() throws IOException {
-        return null;
-    }
+  @Nullable
+  @Override
+  public DataOutputStream connect() throws IOException {
+    return null;
+  }
 }

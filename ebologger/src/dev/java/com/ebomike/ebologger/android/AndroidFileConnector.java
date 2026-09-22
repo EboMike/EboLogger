@@ -11,7 +11,7 @@ import java.io.File;
  * in a location private to the app.
  */
 public class AndroidFileConnector extends FileConnector {
-    public AndroidFileConnector(Context context) {
-        super(new File(context.getExternalFilesDir(null), getName()).getPath());
-    }
+  public AndroidFileConnector(Context context) {
+    super(new File(context.getExternalFilesDir(null), getName()).getPath());
+  }
 }

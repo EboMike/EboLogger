@@ -8,11 +8,13 @@ import java.io.DataInputStream;
 import java.io.IOException;
 
 public class NewThreadHandler implements CommandHandler {
-    @Override
-    public void execute(CommandContext context, DataInputStream input, int version) throws IOException {
-        int threadId = input.readInt();
-        String name = input.readUTF();
+  @Override
+  public void execute(CommandContext context,
+      DataInputStream input,
+      int version) throws IOException {
+    int threadId = input.readInt();
+    String name = input.readUTF();
 
-        context.getModel().createThread(threadId, name);
-    }
+    context.getModel().createThread(threadId, name);
+  }
 }

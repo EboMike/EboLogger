@@ -8,11 +8,13 @@ import java.io.DataInputStream;
 import java.io.IOException;
 
 public class NewClassHandler implements CommandHandler {
-    @Override
-    public void execute(CommandContext context, DataInputStream input, int version) throws IOException {
-        int classId = input.readShort();
-        String name = input.readUTF();
+  @Override
+  public void execute(CommandContext context,
+      DataInputStream input,
+      int version) throws IOException {
+    int classId = input.readShort();
+    String name = input.readUTF();
 
-        context.getModel().addClass(classId, name);
-    }
+    context.getModel().addClass(classId, name);
+  }
 }

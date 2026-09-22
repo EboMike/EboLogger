@@ -9,27 +9,27 @@ import com.ebomike.ebologger.EboLogger;
  * don't want to expose it to users. The data may not be available based on the environment.
  */
 public interface ReadableLogMessage {
-    EboLogger.LogLevel getSeverity();
+  EboLogger.LogLevel getSeverity();
 
-    long getTimestamp();
+  long getTimestamp();
 
-    @Nullable
-    TrackedMarker getMarker();
+  @Nullable
+  TrackedMarker getMarker();
 
-    @Nullable
-    TrackedContext getContext();
+  @Nullable
+  TrackedContext getContext();
 
-    String getTag();
+  String getTag();
 
-    String getFormattedMessage();
+  String getFormattedMessage();
 
-    CallHierarchy getCallHierarchy();
+  CallHierarchy getCallHierarchy();
 
-    @Nullable
-    TrackedObject getObject();
+  @Nullable
+  TrackedObject getObject();
 
-    TrackedThread getThread();
+  TrackedThread getThread();
 
-    @Nullable
-    Throwable getThrowable();
+  @Nullable
+  Throwable getThrowable();
 }

@@ -8,11 +8,13 @@ import java.io.DataInputStream;
 import java.io.IOException;
 
 public class NewMethodHandler implements CommandHandler {
-    @Override
-    public void execute(CommandContext context, DataInputStream input, int version) throws IOException {
-        int methodId = input.readShort();
-        String name = input.readUTF();
+  @Override
+  public void execute(CommandContext context,
+      DataInputStream input,
+      int version) throws IOException {
+    int methodId = input.readShort();
+    String name = input.readUTF();
 
-        context.getModel().addMethod(methodId, name);
-    }
+    context.getModel().addMethod(methodId, name);
+  }
 }

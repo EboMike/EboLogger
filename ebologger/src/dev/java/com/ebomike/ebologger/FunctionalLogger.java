@@ -6,50 +6,50 @@ import com.ebomike.ebologger.model.CallHierarchy;
 import com.ebomike.ebologger.model.ProgramGraph;
 
 public abstract class FunctionalLogger extends EboLogger {
-    protected final String tag;
+  protected final String tag;
 
-    @Nullable
-    private final Object object;
+  @Nullable
+  private final Object object;
 
-    private final String prefix;
+  private final String prefix;
 
-    private final boolean createGraph = true;
+  private final boolean createGraph = true;
 
-    private final ProgramGraph graph = ProgramGraph.get();
+  private final ProgramGraph graph = ProgramGraph.get();
 
-    public FunctionalLogger(String tag, @Nullable Object object, Config config) {
-        super(config);
+  public FunctionalLogger(String tag, @Nullable Object object, Config config) {
+    super(config);
 
-        this.tag = tag;
-        this.object = object;
+    this.tag = tag;
+    this.object = object;
 
-        if(object == null) {
-            prefix = "";
-        } else {
-            prefix = object.getClass().getSimpleName() +
-                    "@" + Integer.toHexString(object.hashCode()) + ": ";
-        }
+    if (object == null) {
+      prefix = "";
+    } else {
+      prefix = object.getClass().getSimpleName() +
+          "@" + Integer.toHexString(object.hashCode()) + ": ";
     }
+  }
 
-    @Override
-    public String getTag() {
-        return tag;
-    }
+  @Override
+  public String getTag() {
+    return tag;
+  }
 
-    public static String getMsg(LogLevel level, String fmt, Object... args) {
-        return String.format(fmt, args);
-    }
+  public static String getMsg(LogLevel level, String fmt, Object... args) {
+    return String.format(fmt, args);
+  }
 
-    private CallHierarchy getHierarchy(StackTraceElement[] stackTrace) {
-        return graph.getHierarchy(stackTrace);
-    }
+  private CallHierarchy getHierarchy(StackTraceElement[] stackTrace) {
+    return graph.getHierarchy(stackTrace);
+  }
 
-    protected ProgramGraph getGraph() {
-        return graph;
-    }
+  protected ProgramGraph getGraph() {
+    return graph;
+  }
 
-    @Nullable
-    protected Object getObject() {
-        return object;
-    }
+  @Nullable
+  protected Object getObject() {
+    return object;
+  }
 }

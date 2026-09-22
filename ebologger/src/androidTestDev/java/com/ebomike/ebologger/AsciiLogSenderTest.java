@@ -24,82 +24,82 @@ import static org.mockito.Mockito.when;
 
 @RunWith(JUnit4.class)
 public class AsciiLogSenderTest {
-    private static final Charset CHARSET = StandardCharsets.UTF_8;
+  private static final Charset CHARSET = StandardCharsets.UTF_8;
 
-    private ByteArrayOutputStream output;
+  private ByteArrayOutputStream output;
 
-    private Writer writer;
+  private Writer writer;
 
-    private ReadableLogMessage log;
+  private ReadableLogMessage log;
 
-    @Before
-    public void setUp() {
-        output = new ByteArrayOutputStream();
-        writer = new OutputStreamWriter(output, CHARSET);
+  @Before
+  public void setUp() {
+    output = new ByteArrayOutputStream();
+    writer = new OutputStreamWriter(output, CHARSET);
 
-        // Create a basic mocked log message, individual tests can tweak it as needed.
-        log = mock(ReadableLogMessage.class);
-        when(log.getTimestamp()).thenReturn(203587200123L);
-        when(log.getSeverity()).thenReturn(LogLevel.WARNING);
-        when(log.getTag()).thenReturn("MyTag");
-        when(log.getFormattedMessage()).thenReturn("Test Formatted Message");
+    // Create a basic mocked log message, individual tests can tweak it as needed.
+    log = mock(ReadableLogMessage.class);
+    when(log.getTimestamp()).thenReturn(203587200123L);
+    when(log.getSeverity()).thenReturn(LogLevel.WARNING);
+    when(log.getTag()).thenReturn("MyTag");
+    when(log.getFormattedMessage()).thenReturn("Test Formatted Message");
 
-        TimeZone.setDefault(TimeZone.getTimeZone("America/Los_Angeles"));
-    }
+    TimeZone.setDefault(TimeZone.getTimeZone("America/Los_Angeles"));
+  }
 
-    @Test
-    public void testDefaultTemplate() throws Exception {
-        AsciiLogSender sender = new AsciiLogSender.Builder()
-                .writer(writer)
-                .build();
+  @Test
+  public void testDefaultTemplate() throws Exception {
+    AsciiLogSender sender = new AsciiLogSender.Builder()
+        .writer(writer)
+        .build();
 
-        sender.sendMessage(log);
-        expectMessage("06-14 01:00:00.123 W MyTag: Test Formatted Message\n");
-    }
+    sender.sendMessage(log);
+    expectMessage("06-14 01:00:00.123 W MyTag: Test Formatted Message\n");
+  }
 
-    @Test
-    public void testCustomTemplate() throws Exception {
-        AsciiLogSender sender = new AsciiLogSender.Builder()
-                .writer(writer)
-                .template("{message}@{severity}")
-                .build();
+  @Test
+  public void testCustomTemplate() throws Exception {
+    AsciiLogSender sender = new AsciiLogSender.Builder()
+        .writer(writer)
+        .template("{message}@{severity}")
+        .build();
 
-        sender.sendMessage(log);
-        expectMessage("Test Formatted Message@W");
-    }
+    sender.sendMessage(log);
+    expectMessage("Test Formatted Message@W");
+  }
 
-    @Test
-    public void testCustomFormatter() throws Exception {
-        AsciiLogSender sender = new AsciiLogSender.Builder()
-                .writer(writer)
-                .formatter(new SimpleDateFormat("MMM", Locale.US))
-                .build();
+  @Test
+  public void testCustomFormatter() throws Exception {
+    AsciiLogSender sender = new AsciiLogSender.Builder()
+        .writer(writer)
+        .formatter(new SimpleDateFormat("MMM", Locale.US))
+        .build();
 
-        sender.sendMessage(log);
-        expectMessage("Jun W MyTag: Test Formatted Message\n");
-    }
+    sender.sendMessage(log);
+    expectMessage("Jun W MyTag: Test Formatted Message\n");
+  }
 
-    @Test
-    public void testNullArgs() throws Exception {
-        AsciiLogSender sender = new AsciiLogSender.Builder()
-                .writer(writer)
-                .build();
+  @Test
+  public void testNullArgs() throws Exception {
+    AsciiLogSender sender = new AsciiLogSender.Builder()
+        .writer(writer)
+        .build();
 
-        when(log.getTag()).thenReturn(null);
+    when(log.getTag()).thenReturn(null);
 
-        sender.sendMessage(log);
-        expectMessage("06-14 01:00:00.123 W (null): Test Formatted Message\n");
-    }
+    sender.sendMessage(log);
+    expectMessage("06-14 01:00:00.123 W (null): Test Formatted Message\n");
+  }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testMissingWriter() throws Exception {
-        // Should fail because no writer was provided.
-        new AsciiLogSender.Builder().build();
-    }
+  @Test(expected = IllegalArgumentException.class)
+  public void testMissingWriter() throws Exception {
+    // Should fail because no writer was provided.
+    new AsciiLogSender.Builder().build();
+  }
 
-    private void expectMessage(String expectedMessage) throws Exception {
-        writer.close();
-      String actualMessage = output.toString(CHARSET);
-        assertThat(actualMessage, equalTo(expectedMessage));
-    }
+  private void expectMessage(String expectedMessage) throws Exception {
+    writer.close();
+    String actualMessage = output.toString(CHARSET);
+    assertThat(actualMessage, equalTo(expectedMessage));
+  }
 }

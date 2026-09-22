@@ -8,26 +8,26 @@ import android.view.View;
 import com.ebomike.ebologger.EboLogger;
 
 public class EboLoggerDemo extends AppCompatActivity {
-    private EboLogger logger = EboLogger.get(this);
+  private EboLogger logger = EboLogger.get(this);
 
-    static {
-        // Fire up a new thread to demonstrate multiple threads in the UI.
-        new ThreadDemo().start();
-    }
+  static {
+    // Fire up a new thread to demonstrate multiple threads in the UI.
+    new ThreadDemo().start();
+  }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ebo_logger_demo);
-    }
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_ebo_logger_demo);
+  }
 
-    public void crashHandler(View view) {
-        Intent intent = new Intent(this, CrashDemo.class);
-        startActivity(intent);
-    }
+  public void crashHandler(View view) {
+    Intent intent = new Intent(this, CrashDemo.class);
+    startActivity(intent);
+  }
 
-    public void lifecycleDemo(View view) {
-        Intent intent = new Intent(this, ActivityLifecycleDemo.class);
-        startActivity(intent);
-    }
+  public void lifecycleDemo(View view) {
+    Intent intent = new Intent(this, ActivityLifecycleDemo.class);
+    startActivity(intent);
+  }
 }

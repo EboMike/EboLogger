@@ -4,7 +4,7 @@ import com.ebomike.ebologger.client.model.LogMsg;
 import com.ebomike.ebologger.client.model.Model;
 
 public interface ClientUiInterface {
-    void addLog(LogMsg msg);
+  void addLog(LogMsg msg);
 
-    void setModel(Model model);
+  void setModel(Model model);
 }

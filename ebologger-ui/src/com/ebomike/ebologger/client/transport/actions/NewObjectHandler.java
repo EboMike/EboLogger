@@ -7,11 +7,13 @@ import java.io.DataInputStream;
 import java.io.IOException;
 
 public class NewObjectHandler implements CommandHandler {
-    @Override
-    public void execute(CommandContext context, DataInputStream input, int version) throws IOException {
-        int objectId = input.readInt();
-        String name = input.readUTF();
+  @Override
+  public void execute(CommandContext context,
+      DataInputStream input,
+      int version) throws IOException {
+    int objectId = input.readInt();
+    String name = input.readUTF();
 
-        context.getModel().createObject(objectId, name);
-    }
+    context.getModel().createObject(objectId, name);
+  }
 }

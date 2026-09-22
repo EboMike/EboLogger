@@ -10,10 +10,10 @@ import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 public class LoggerTest {
-    @Test
-    public void testGet() {
-        EboLogger logger = EboLogger.get();
+  @Test
+  public void testGet() {
+    EboLogger logger = EboLogger.get();
 
-        assertThat(logger.getTag(), equalTo("LoggerTest"));
-    }
+    assertThat(logger.getTag(), equalTo("LoggerTest"));
+  }
 }

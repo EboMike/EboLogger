@@ -9,19 +9,19 @@ import com.ebomike.ebologger.model.ReadableLogMessage;
  * active LogSender.
  */
 public abstract class LogSender {
-    /**
-     * ID to identify this sender, mostly for use in {@link Config}. Does not have to be unique.
-     */
-    private final int senderId;
+  /**
+   * ID to identify this sender, mostly for use in {@link Config}. Does not have to be unique.
+   */
+  private final int senderId;
 
-    public LogSender(int senderId) {
-        this.senderId = senderId;
-    }
+  public LogSender(int senderId) {
+    this.senderId = senderId;
+  }
 
-    public int getSenderId() {
-        return senderId;
-    }
+  public int getSenderId() {
+    return senderId;
+  }
 
-    /** Sends a message. */
-    public abstract void sendMessage(ReadableLogMessage message);
+  /** Sends a message. */
+  public abstract void sendMessage(ReadableLogMessage message);
 }

@@ -6,20 +6,20 @@ import com.ebomike.ebologger.model.LogMessage;
 import com.ebomike.ebologger.model.SimpleLogMessage;
 
 public class AndroidReleaseLogger extends EboLogger {
-    private final String tag;
+  private final String tag;
 
-    public AndroidReleaseLogger(String tag, Config config) {
-        super(config);
-        this.tag = tag;
-    }
+  public AndroidReleaseLogger(String tag, Config config) {
+    super(config);
+    this.tag = tag;
+  }
 
-    @Override
-    protected LogMessage createLogMessage(LogLevel severity) {
-        return new SimpleLogMessage(this, tag, severity);
-    }
+  @Override
+  protected LogMessage createLogMessage(LogLevel severity) {
+    return new SimpleLogMessage(this, tag, severity);
+  }
 
-    @Override
-    public String getTag() {
-        return tag;
-    }
+  @Override
+  public String getTag() {
+    return tag;
+  }
 }

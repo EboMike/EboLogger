@@ -1,6 +1,7 @@
 package com.ebomike.ebologger.client.ui;
 
 import com.ebomike.ebologger.client.transport.Connection;
+
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,70 +22,70 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class TimelinePopup implements Initializable {
-    @FXML
-    private ListView<String> loglist;
+  @FXML
+  private ListView<String> loglist;
 
-    private PopupControl popupControl;
+  private PopupControl popupControl;
 
-    private Window parentWindow;
+  private Window parentWindow;
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+  @Override
+  public void initialize(URL location, ResourceBundle resources) {
 /*
             Stage stage = new Stage();
             stage.setTitle("EboLogger " + connection.getHostName());
             stage.setScene(new Scene(root, 800, 500));
             stage.show();
 */
-        ObservableList<String> list = FXCollections.observableArrayList();
-        list.add("Element 1");
-        loglist.setItems(list);
+    ObservableList<String> list = FXCollections.observableArrayList();
+    list.add("Element 1");
+    loglist.setItems(list);
 
-        loglist.pickOnBoundsProperty().set(false);
+    loglist.pickOnBoundsProperty().set(false);
 
 //            popupControl.add
+  }
+
+  public static TimelinePopup create(Application application, Window parentWindow) {
+    try {
+      FXMLLoader loader = new FXMLLoader(
+          application.getClass().getResource(
+              "ui/popup.fxml"
+          )
+      );
+
+      Parent root = loader.load();
+      //     root.pickOnBoundsProperty().set(false);
+      //   root.setMouseTransparent(true);
+      TimelinePopup controller = loader.getController();
+      controller.parentWindow = parentWindow;
+      controller.popupControl = new PopupControl();
+      controller.init(root);
+
+      return controller;
+    } catch (IOException ex) {
+      throw new RuntimeException(ex);
     }
+  }
 
-    public static TimelinePopup create(Application application, Window parentWindow) {
-        try {
-            FXMLLoader loader = new FXMLLoader(
-                    application.getClass().getResource(
-                            "ui/popup.fxml"
-                    )
-            );
-
-            Parent root = loader.load();
-       //     root.pickOnBoundsProperty().set(false);
-         //   root.setMouseTransparent(true);
-            TimelinePopup controller = loader.getController();
-            controller.parentWindow = parentWindow;
-            controller.popupControl = new PopupControl();
-            controller.init(root);
-
-            return controller;
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
-    }
-
-    private void init(Parent root) {
-        popupControl.getScene().setRoot(root);
-        popupControl.setOpacity(0.9);
-        root.setMouseTransparent(true);
+  private void init(Parent root) {
+    popupControl.getScene().setRoot(root);
+    popupControl.setOpacity(0.9);
+    root.setMouseTransparent(true);
 //        root.setPickOnBounds(false);
 //        popupControl.stage.initStyle(StageStyle.TRANSPARENT);
 
-        popupControl.getScene().getRoot().addEventFilter(
-                MouseEvent.MOUSE_MOVED, this::passthru);
-    }
+    popupControl.getScene().getRoot().addEventFilter(
+        MouseEvent.MOUSE_MOVED, this::passthru);
+  }
 
-    private void passthru(MouseEvent event) {
-        System.out.println("MM: " + event.getX() + "/" + event.getY());
-        MouseEvent clone = event.copyFor(event.getSource(), parentWindow);
-        parentWindow.fireEvent(clone);
-    }
+  private void passthru(MouseEvent event) {
+    System.out.println("MM: " + event.getX() + "/" + event.getY());
+    MouseEvent clone = event.copyFor(event.getSource(), parentWindow);
+    parentWindow.fireEvent(clone);
+  }
 
-    public PopupControl getPopupControl() {
-        return popupControl;
-    }
+  public PopupControl getPopupControl() {
+    return popupControl;
+  }
 }

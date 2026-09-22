@@ -4,5 +4,5 @@ import java.io.DataInputStream;
 import java.io.IOException;
 
 public interface CommandHandler {
-    void execute(CommandContext context, DataInputStream input, int version) throws IOException;
+  void execute(CommandContext context, DataInputStream input, int version) throws IOException;
 }

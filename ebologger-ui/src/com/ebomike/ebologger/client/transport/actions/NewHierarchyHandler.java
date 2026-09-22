@@ -8,18 +8,20 @@ import java.io.DataInputStream;
 import java.io.IOException;
 
 public class NewHierarchyHandler implements CommandHandler {
-    @Override
-    public void execute(CommandContext context, DataInputStream input, int version) throws IOException {
-        short id = input.readShort();
-        short classId = input.readShort();
-        short methodId = input.readShort();
-        short sourceFileId = input.readShort();
-        short line = input.readShort();
-        short parent = input.readShort();
+  @Override
+  public void execute(CommandContext context,
+      DataInputStream input,
+      int version) throws IOException {
+    short id = input.readShort();
+    short classId = input.readShort();
+    short methodId = input.readShort();
+    short sourceFileId = input.readShort();
+    short line = input.readShort();
+    short parent = input.readShort();
 
-        HostCallHierarchy hierarchy = new HostCallHierarchy(id, classId, methodId, sourceFileId, line,
-                context.getModel().getHierarchy(parent));
+    HostCallHierarchy hierarchy = new HostCallHierarchy(id, classId, methodId, sourceFileId, line,
+        context.getModel().getHierarchy(parent));
 
-        context.getModel().addHierarchy(id, hierarchy);
-    }
+    context.getModel().addHierarchy(id, hierarchy);
+  }
 }

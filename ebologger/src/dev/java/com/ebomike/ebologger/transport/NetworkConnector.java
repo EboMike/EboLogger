@@ -2,6 +2,7 @@ package com.ebomike.ebologger.transport;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.WorkerThread;
+
 import android.util.Log;
 
 import java.io.DataOutputStream;
@@ -14,43 +15,43 @@ import java.net.Socket;
  * to send all data to.
  */
 public class NetworkConnector implements Connector {
-    private static final String TAG = "LogConnector";
+  private static final String TAG = "LogConnector";
 
-    private static final int CLIENT_PORT = 8023;
+  private static final int CLIENT_PORT = 8023;
 
-    private static final int DISCOVERY_PORT = 8024;
+  private static final int DISCOVERY_PORT = 8024;
 
-    @Nullable
-    private final String target;
+  @Nullable
+  private final String target;
 
-    private final int port;
+  private final int port;
 
-    public NetworkConnector() {
-        this(null, 0);
+  public NetworkConnector() {
+    this(null, 0);
+  }
+
+  public NetworkConnector(@Nullable String target, int port) {
+    this.target = target;
+    this.port = port == 0 ? CLIENT_PORT : port;
+  }
+
+  @Override
+  @WorkerThread
+  @Nullable
+  public DataOutputStream connect() throws IOException {
+    Log.v(TAG, "Connecting to EboLogger...");
+    String client = target;
+
+    if (client == null) {
+      Log.v(TAG, "No target provided for EboLogger - using discovery");
+      client = Discovery.discover(DISCOVERY_PORT);
     }
 
-    public NetworkConnector(@Nullable String target, int port) {
-        this.target = target;
-        this.port = port == 0 ? CLIENT_PORT : port;
+    if (client == null) {
+      return null;
     }
 
-    @Override
-    @WorkerThread
-    @Nullable
-    public DataOutputStream connect() throws IOException {
-        Log.v(TAG, "Connecting to EboLogger...");
-        String client = target;
-
-        if (client == null) {
-            Log.v(TAG, "No target provided for EboLogger - using discovery");
-            client = Discovery.discover(DISCOVERY_PORT);
-        }
-
-        if (client == null) {
-            return null;
-        }
-
-        Socket socket = new Socket(client, port);
-        return new DataOutputStream(socket.getOutputStream());
-    }
+    Socket socket = new Socket(client, port);
+    return new DataOutputStream(socket.getOutputStream());
+  }
 }

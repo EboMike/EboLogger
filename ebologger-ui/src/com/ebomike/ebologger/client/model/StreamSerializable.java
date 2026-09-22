@@ -5,7 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 public interface StreamSerializable {
-    //void load(DataInputStream in, int version);
+  //void load(DataInputStream in, int version);
 
-    void save(DataOutputStream out) throws IOException;
+  void save(DataOutputStream out) throws IOException;
 }

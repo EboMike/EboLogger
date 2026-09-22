@@ -8,45 +8,45 @@ import com.ebomike.ebologger.transport.Connector;
 import com.ebomike.ebologger.transport.NetworkConnector;
 
 public class TransportRouter {
-    private final Connection connection;
+  private final Connection connection;
 
-    @Nullable
-    private static TransportRouter instance = null;
+  @Nullable
+  private static TransportRouter instance = null;
 
-    private static final Object mutex = new Object();
+  private static final Object mutex = new Object();
 
-    private static Connector connector = new NetworkConnector();
+  private static Connector connector = new NetworkConnector();
 
-    public TransportRouter() {
-        connection = new Connection(connector);
-        connector = null;
-        connection.connect();
+  public TransportRouter() {
+    connection = new Connection(connector);
+    connector = null;
+    connection.connect();
+  }
+
+  public static void setConnector(@NonNull Connector connector) {
+    if (TransportRouter.connector == null) {
+      throw new RuntimeException("Router had already been set up");
     }
 
-    public static void setConnector(@NonNull Connector connector) {
-        if (TransportRouter.connector == null) {
-            throw new RuntimeException("Router had already been set up");
-        }
+    TransportRouter.connector = connector;
+  }
 
-        TransportRouter.connector = connector;
+  @Nullable
+  public static Connector getConnector() {
+    return connector;
+  }
+
+  public static TransportRouter getInstance() {
+    synchronized (mutex) {
+      if (instance == null) {
+        instance = new TransportRouter();
+      }
+
+      return instance;
     }
+  }
 
-    @Nullable
-    public static Connector getConnector() {
-        return connector;
-    }
-
-    public static TransportRouter getInstance() {
-        synchronized (mutex) {
-            if (instance == null) {
-                instance = new TransportRouter();
-            }
-
-            return instance;
-        }
-    }
-
-    public Connection getConnection() {
-        return connection;
-    }
+  public Connection getConnection() {
+    return connection;
+  }
 }

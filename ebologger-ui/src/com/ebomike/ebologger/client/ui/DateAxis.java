@@ -1,6 +1,7 @@
 package com.ebomike.ebologger.client.ui;
 
 import com.sun.istack.internal.Nullable;
+
 import javafx.beans.InvalidationListener;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableObjectValue;
@@ -18,155 +19,155 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DateAxis extends Canvas {
-    @Nullable
-    private TimelineView timelineView;
+  @Nullable
+  private TimelineView timelineView;
 //    private ObservableObjectValue<TimelineView> timelineView;
 
-    private Font font;
+  private Font font;
 
-    private static class DateScale {
-        private final long unit;
+  private static class DateScale {
+    private final long unit;
 
-        private final DateFormat dateFormat;
+    private final DateFormat dateFormat;
 
-        public DateScale(long unit, DateFormat dateFormat) {
-            this.unit = unit;
-            this.dateFormat = dateFormat;
-        }
-
-        public long getUnit() {
-            return unit;
-        }
-
-        public DateFormat getDateFormat() {
-            return dateFormat;
-        }
+    public DateScale(long unit, DateFormat dateFormat) {
+      this.unit = unit;
+      this.dateFormat = dateFormat;
     }
 
-    private static final DateScale scales[] = {
-            // Days
-            new DateScale(1000L * 3600L * 24L, DateFormat.getDateInstance(DateFormat.MEDIUM)),
+    public long getUnit() {
+      return unit;
+    }
 
-            // Hours
-            new DateScale(1000L * 3600L, DateFormat.getTimeInstance(DateFormat.SHORT)),
+    public DateFormat getDateFormat() {
+      return dateFormat;
+    }
+  }
 
-            // Seconds
-            new DateScale(1000L, DateFormat.getTimeInstance(DateFormat.LONG)),
+  private static final DateScale scales[] = {
+      // Days
+      new DateScale(1000L * 3600L * 24L, DateFormat.getDateInstance(DateFormat.MEDIUM)),
 
-            // Milliseconds
-            new DateScale(250L, new SimpleDateFormat("HH:mm:ss.SSS")),
+      // Hours
+      new DateScale(1000L * 3600L, DateFormat.getTimeInstance(DateFormat.SHORT)),
 
-            // Milliseconds
-            new DateScale(1L, new SimpleDateFormat("HH:mm:ss.SSS")),
-    };
+      // Seconds
+      new DateScale(1000L, DateFormat.getTimeInstance(DateFormat.LONG)),
 
-    private static final int MARKER_DIST = 200;
+      // Milliseconds
+      new DateScale(250L, new SimpleDateFormat("HH:mm:ss.SSS")),
 
-    public DateAxis() {
+      // Milliseconds
+      new DateScale(1L, new SimpleDateFormat("HH:mm:ss.SSS")),
+  };
+
+  private static final int MARKER_DIST = 200;
+
+  public DateAxis() {
 //        super(16000.0, 24.0);
-        // Redraw canvas when size changes.
-        widthProperty().addListener(event -> draw());
-        heightProperty().addListener(event -> draw());
+    // Redraw canvas when size changes.
+    widthProperty().addListener(event -> draw());
+    heightProperty().addListener(event -> draw());
 
-        heightProperty().set(24.0);
-        widthProperty().set(160.0);
+    heightProperty().set(24.0);
+    widthProperty().set(160.0);
 
-        font = new Font("Arial", 12.0);
+    font = new Font("Arial", 12.0);
+  }
+
+  public void setTimelineView(TimelineView timelineView) {
+    this.timelineView = timelineView;
+    timelineView.getObservable().addListener(e -> draw());
+  }
+
+  private void draw() {
+    GraphicsContext gc = getGraphicsContext2D();
+
+    gc.setStroke(Color.RED);
+    gc.setFill(Color.YELLOW);
+    gc.setLineWidth(3.0);
+    gc.strokeLine(8.0, 8.0, Math.random() * 200.0, 4.0);
+    gc.strokeLine(8.0, 8.0, 78.0, 4.0);
+    gc.strokeLine(4.0, 4.0, 2000.0, 10.0);
+
+    if (timelineView == null) {
+      return;
     }
 
-    public void setTimelineView(TimelineView timelineView) {
-        this.timelineView = timelineView;
-        timelineView.getObservable().addListener(e -> draw());
-    }
+    double width = getWidth();
+    double height = getHeight();
 
-    private void draw() {
-        GraphicsContext gc = getGraphicsContext2D();
+    gc.clearRect(0, 0, width, height);
 
-        gc.setStroke(Color.RED);
-        gc.setFill(Color.YELLOW);
-        gc.setLineWidth(3.0);
-        gc.strokeLine(8.0, 8.0, Math.random() * 200.0, 4.0);
-        gc.strokeLine(8.0, 8.0, 78.0, 4.0);
-        gc.strokeLine(4.0, 4.0, 2000.0, 10.0);
+    // How many milliseconds worth of data can we see on the screen?
+    long range = (long) (width * timelineView.getScale());
 
-        if (timelineView == null) {
+    System.out.println("Range: " + range + ", zoom=" + timelineView.getScale());
+
+    for (DateScale scale : scales) {
+      if (range > scale.getUnit() * 3) {
+        // Find the next best value in this unit.
+        long start = timelineView.getStartTime();
+
+        System.out.println("Picking unit " + scale.getUnit());
+
+        long factor = scale.getUnit();
+        while (factor / timelineView.getScale() < MARKER_DIST) {
+          factor *= 10;
+        }
+
+        System.out.println("Final factor: " + factor);
+
+        start -= MARKER_DIST;
+        start -= start % factor;
+
+        System.out.println("Start pos: " + start);
+
+        int lastTextPos = -MARKER_DIST;
+        gc.setFill(Color.BLACK);
+        gc.setFont(font);
+        gc.setTextAlign(TextAlignment.LEFT);
+        gc.setTextBaseline(VPos.TOP);
+
+        while (true) {
+          int xpos = timelineView.getXpos(start);
+
+          if (xpos >= width) {
             return;
+          }
+
+          gc.fillText(scale.getDateFormat().format(new Date(start)), xpos, 0);
+          lastTextPos = xpos;
+          start += factor;
         }
-
-        double width = getWidth();
-        double height = getHeight();
-
-        gc.clearRect(0, 0, width, height);
-
-        // How many milliseconds worth of data can we see on the screen?
-        long range = (long) (width * timelineView.getScale());
-
-        System.out.println("Range: " + range + ", zoom=" + timelineView.getScale());
-
-        for (DateScale scale : scales) {
-            if (range > scale.getUnit() * 3) {
-                // Find the next best value in this unit.
-                long start = timelineView.getStartTime();
-
-                System.out.println("Picking unit " + scale.getUnit());
-
-                long factor = scale.getUnit();
-                while (factor / timelineView.getScale() < MARKER_DIST) {
-                    factor *= 10;
-                }
-
-                System.out.println("Final factor: " + factor);
-
-                start -= MARKER_DIST;
-                start -= start % factor;
-
-                System.out.println("Start pos: " + start);
-
-                int lastTextPos = -MARKER_DIST;
-                gc.setFill(Color.BLACK);
-                gc.setFont(font);
-                gc.setTextAlign(TextAlignment.LEFT);
-                gc.setTextBaseline(VPos.TOP);
-
-                while (true) {
-                    int xpos = timelineView.getXpos(start);
-
-                    if (xpos >= width) {
-                        return;
-                    }
-
-                    gc.fillText(scale.getDateFormat().format(new Date(start)), xpos, 0);
-                    lastTextPos = xpos;
-                    start += factor;
-                }
-            }
-        }
-
-        gc.setStroke(Color.RED);
-        gc.setFill(Color.YELLOW);
-        gc.setLineWidth(3.0);
-        gc.strokeLine(8.0, 8.0, 78.0, 4.0);
+      }
     }
 
-    @Override
-    public boolean isResizable() {
-        return true;
-    }
+    gc.setStroke(Color.RED);
+    gc.setFill(Color.YELLOW);
+    gc.setLineWidth(3.0);
+    gc.strokeLine(8.0, 8.0, 78.0, 4.0);
+  }
 
-    @Override
-    public double prefWidth(double height) {
-        return getWidth();
-    }
+  @Override
+  public boolean isResizable() {
+    return true;
+  }
 
-    @Override
-    public double prefHeight(double width) {
-        System.out.println("Pref height: " + getHeight());
-        return getHeight();
-    }
+  @Override
+  public double prefWidth(double height) {
+    return getWidth();
+  }
 
-    @Override
-    public double minHeight(double width) {
-        return 24.0;
-    }
+  @Override
+  public double prefHeight(double width) {
+    System.out.println("Pref height: " + getHeight());
+    return getHeight();
+  }
+
+  @Override
+  public double minHeight(double width) {
+    return 24.0;
+  }
 
 }

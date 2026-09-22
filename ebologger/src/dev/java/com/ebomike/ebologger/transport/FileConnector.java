@@ -15,28 +15,28 @@ import java.util.Locale;
  * and date in the filename.
  */
 public class FileConnector implements Connector {
-    private final String filename;
+  private final String filename;
 
-    public FileConnector() {
-        filename = getName();
-    }
+  public FileConnector() {
+    filename = getName();
+  }
 
-    public FileConnector(String filename) {
-        this.filename = filename;
-    }
+  public FileConnector(String filename) {
+    this.filename = filename;
+  }
 
-    /**
-     * Generates a filename using the current time and date.
-     */
-    protected static String getName() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss", Locale.US);
-        return String.format("ebologger-%s.elb", sdf.format(new Date()));
-    }
+  /**
+   * Generates a filename using the current time and date.
+   */
+  protected static String getName() {
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss", Locale.US);
+    return String.format("ebologger-%s.elb", sdf.format(new Date()));
+  }
 
-    @Nullable
-    @Override
-    public DataOutputStream connect() throws IOException {
-        FileOutputStream stream = new FileOutputStream(filename);
-        return new DataOutputStream(stream);
-    }
+  @Nullable
+  @Override
+  public DataOutputStream connect() throws IOException {
+    FileOutputStream stream = new FileOutputStream(filename);
+    return new DataOutputStream(stream);
+  }
 }

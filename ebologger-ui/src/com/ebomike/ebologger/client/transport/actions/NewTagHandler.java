@@ -8,11 +8,13 @@ import java.io.DataInputStream;
 import java.io.IOException;
 
 public class NewTagHandler implements CommandHandler {
-    @Override
-    public void execute(CommandContext context, DataInputStream input, int version) throws IOException {
-        int tagId = input.readInt();
-        String name = input.readUTF();
+  @Override
+  public void execute(CommandContext context,
+      DataInputStream input,
+      int version) throws IOException {
+    int tagId = input.readInt();
+    String name = input.readUTF();
 
-        context.getModel().addTag(tagId, name);
-    }
+    context.getModel().addTag(tagId, name);
+  }
 }

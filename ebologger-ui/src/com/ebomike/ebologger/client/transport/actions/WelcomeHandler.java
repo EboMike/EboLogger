@@ -7,8 +7,10 @@ import java.io.DataInputStream;
 import java.io.IOException;
 
 public class WelcomeHandler implements CommandHandler {
-    @Override
-    public void execute(CommandContext context, DataInputStream input, int version) throws IOException {
-        int hostVersion = input.readInt();
-    }
+  @Override
+  public void execute(CommandContext context,
+      DataInputStream input,
+      int version) throws IOException {
+    int hostVersion = input.readInt();
+  }
 }

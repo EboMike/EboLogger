@@ -9,28 +9,28 @@ import com.ebomike.ebologger.model.ReadableLogMessage;
  * file.
  */
 public class LogStreamSender extends LogSender {
-    private final ProgramGraph graph;
+  private final ProgramGraph graph;
 
-    public LogStreamSender(int senderId, ProgramGraph graph) {
-        super(senderId);
-        this.graph = graph;
+  public LogStreamSender(int senderId, ProgramGraph graph) {
+    super(senderId);
+    this.graph = graph;
+  }
+
+  @Override
+  public void sendMessage(ReadableLogMessage message) {
+    if (graph.isDisabled()) {
+      return;
     }
 
-    @Override
-    public void sendMessage(ReadableLogMessage message) {
-        if (graph.isDisabled()) {
-            return;
-        }
+    graph.log(message);
 
-        graph.log(message);
-
-        // Temporary - also add the throwable message itself.
-        if (message.getThrowable() != null && message.getThrowable().getMessage() != null) {
-            // TODO:
+    // Temporary - also add the throwable message itself.
+    if (message.getThrowable() != null && message.getThrowable().getMessage() != null) {
+      // TODO:
 //            FunctionalLogMessage throwableMessage =
 //                    new FunctionalLogMessage(message, message.getThrowable().getMessage());
 //            throwableMessage.setFormattedMessage(message.getThrowable().getMessage());
 //            graph.log(throwableMessage);
-        }
     }
+  }
 }
